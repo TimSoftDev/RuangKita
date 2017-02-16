@@ -10,7 +10,8 @@ use common\models\User;
  */
 class PasswordResetRequestForm extends Model
 {
-    public $email;
+    public $email;    
+    public $verifyCode;
 
 
     /**
@@ -26,7 +27,8 @@ class PasswordResetRequestForm extends Model
                 'targetClass' => '\common\models\User',
                 'filter' => ['status' => User::STATUS_ACTIVE],
                 'message' => 'There is no user with this email address.'
-            ],
+            ],            
+            ['verifyCode', 'captcha'],
         ];
     }
 

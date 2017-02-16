@@ -6,6 +6,7 @@
 
 use yii\helpers\Html;
 use yii\bootstrap\ActiveForm;
+use yii\captcha\Captcha;
 
 $this->title = 'Request password reset';
 $this->params['breadcrumbs'][] = $this->title;
@@ -20,6 +21,10 @@ $this->params['breadcrumbs'][] = $this->title;
             <?php $form = ActiveForm::begin(['id' => 'request-password-reset-form']); ?>
 
                 <?= $form->field($model, 'email')->textInput(['autofocus' => true]) ?>
+
+                <?= $form->field($model, 'verifyCode')->widget(Captcha::className(), [
+                    'template' => '<div class="row"><div class="col-lg-4">{image}</div><div class="col-lg-8">{input}</div></div>',
+                ]) ?>
 
                 <div class="form-group">
                     <?= Html::submitButton('Send', ['class' => 'btn btn-primary']) ?>
