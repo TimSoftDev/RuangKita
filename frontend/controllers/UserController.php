@@ -8,6 +8,7 @@ use yii\filters\VerbFilter;
 use yii\filters\AccessControl;
 use yii\web\Controller;
 use common\models\Pesanan;
+use common\models\PesananSearch;
 use common\models\User_;
 
 use yii\helpers\Json;
@@ -83,4 +84,29 @@ class UserController extends Controller
             'model' => $model,
         ]);
     }
+
+    public function actionRuangan()
+    {
+        $searchModel = new PesananSearch();
+        $dataProvider = $searchModel->search(Yii::$app->request->queryParams);
+
+        $events = Pesanan::find()->all();
+        
+      $tasks=[];  
+      foreach ($events AS $eve){
+      //Testing
+      $event = new \yii2fullcalendar\models\Event();
+      $event->id = $eve->id;
+      $event->backgroundColor='red';
+      $event->title = $eve->id_ruang;
+      $event->start = $eve->tanggal_mulai; 
+      
+      $tasks[] = $event;
+    }
+        
+        return $this->render('ruangan', ['events' => $tasks,
+            ]);
+        
+    }
+
 }

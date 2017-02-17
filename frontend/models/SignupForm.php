@@ -24,7 +24,7 @@ class SignupForm extends Model
         return [
             ['nim', 'trim'],
             ['nim', 'required'],            
-            ['username', 'unique', 'targetClass' => '\common\models\User', 'message' => 'This nim has already been taken.'],
+            ['nim', 'unique', 'targetClass' => '\common\models\User', 'message' => 'This nim has already been taken.'],
             ['nim', 'string', 'min' => 8, 'max' => 8],
 
             ['nama_depan', 'trim'],
