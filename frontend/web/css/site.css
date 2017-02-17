@@ -135,3 +135,12 @@ a.desc:after {
 .foto span {
     vertical-align: middle;
 }
+
+@media(max-width: 767px) {
+    .foto {
+        margin: 0 0 20px;
+    }
+    .foto span {
+        padding-top: 60px;
+    }
+}
