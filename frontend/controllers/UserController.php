@@ -75,7 +75,7 @@ class UserController extends Controller
 
     public function actionProfil()
     {
-        $model = DataUser::find()
+        $model = User_::find()
             ->where([ 'id' => Yii::$app->user->identity->id ])
             ->one();
 

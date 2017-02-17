@@ -16,10 +16,13 @@ $this->params['breadcrumbs'][] = $this->title;
         <?php
           if ($model->foto!='') {
             echo Html::img('@web/'.$model->foto, ['class' => 'img-thumbnail', 'style' => 'width: 300px; height: 300px; margin: 0 20px 20px;', 'alt' => $model->username]);
-          } else {
-              echo Html::img('@web/uploads/foto-300.jpg', ['class' => 'img-thumbnail', 'style' => 'width: 300px; height: 300px; margin: 0 20px 20px;', 'alt' => $model->username]);
-          }   
-        ?>
+          } else { ?>
+
+            <div class="jumbotron img-thumbnail img-responsive foto">
+              <span class="glyphicon glyphicon-user" aria-hidden="true"></span>
+            </div>
+              
+        <?php } ?>
     </div>
     <div class="col-xs-12 col-sm-12 col-md-7">
         <?= DetailView::widget([
