@@ -15,19 +15,21 @@ $this->params['breadcrumbs'][] = $this->title;
     <div class="col-xs-12 col-sm-12 col-md-4 text-center">
         <?php
           if ($model->foto!='') {
-            echo Html::img('@web/'.$model->foto, ['class' => 'img-thumbnail', 'style' => 'width: 300px; height: 300px; margin: 0 20px 20px;', 'alt' => $model->username]);
-          } else { ?>
+            echo Html::img($model->foto, ['class' => 'img-thumbnail', 'style' => 'width: 300px; height: 300px; margin: 0 20px 20px;', 'alt' => $model->username]);
+          } else {
 
-            <div class="jumbotron img-thumbnail img-responsive foto">
-              <span class="glyphicon glyphicon-user" aria-hidden="true"></span>
-            </div>
+            echo Html::img('@web/uploads/default.jpg', ['class' => 'img-thumbnail', 'style' => 'width: 300px; height: 300px; margin: 0 20px 20px;', 'alt' => $model->username]);
               
-        <?php } ?>
+        } ?>
     </div>
     <div class="col-xs-12 col-sm-12 col-md-7">
         <?= DetailView::widget([
             'model' => $model,
             'attributes' => [
+                [                      
+                    'label' => 'NIM' ,
+                    'value' => $model->nim,
+                ], 
                 [                      
                     'label' => 'Nama' ,
                     'value' => $model->nama_depan . ' ' . $model->nama_belakang,
@@ -40,13 +42,11 @@ $this->params['breadcrumbs'][] = $this->title;
             ],
         ]) ?>
         <p>
-            <?= Html::a('Sunting Profil', ['sunting', 'id' => $model->id], ['class' => 'btn btn-flat btn-primary']) ?>
-
             <?php
               Modal::begin([
                   'header' => '<h3>' . $model->nama_depan . ' ' . $model->nama_belakang .'</h3>',
-                  'footer' => 'Ini adalah footer',
-                  'toggleButton' => ['label' => 'Ganti Foto', 'class' => 'btn btn-flat btn-default'],
+                  'footer' => date('l, d M Y h:i'),
+                  'toggleButton' => ['label' => 'Lihat Pesananku', 'class' => 'btn btn-flat btn-primary'],
               ]);
 
               echo 'Ini adalah sebuah modal...';

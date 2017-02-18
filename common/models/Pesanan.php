@@ -17,6 +17,10 @@ use Yii;
  * @property string $status
  * @property string $waktu_pesan
  * @property string $waktu_validasi
+ *
+ * @property Ruang $idRuang
+ * @property SesiWaktu $sesiWaktu
+ * @property User $nimMahasiswa
  */
 class Pesanan extends \yii\db\ActiveRecord
 {
@@ -41,6 +45,8 @@ class Pesanan extends \yii\db\ActiveRecord
             [['nim_mahasiswa'], 'string', 'max' => 8],
             [['no_surat'], 'string', 'max' => 63],
             [['sesi_waktu'], 'string', 'max' => 32],
+            [['id_ruang'], 'exist', 'skipOnError' => true, 'targetClass' => Ruang::className(), 'targetAttribute' => ['id_ruang' => 'id']],
+            [['sesi_waktu'], 'exist', 'skipOnError' => true, 'targetClass' => SesiWaktu::className(), 'targetAttribute' => ['sesi_waktu' => 'sesi']],
         ];
     }
 
@@ -62,4 +68,21 @@ class Pesanan extends \yii\db\ActiveRecord
             'waktu_validasi' => 'Waktu Validasi',
         ];
     }
+
+    /**
+     * @return \yii\db\ActiveQuery
+     */
+    public function getIdRuang()
+    {
+        return $this->hasOne(Ruang::className(), ['id' => 'id_ruang']);
+    }
+
+    /**
+     * @return \yii\db\ActiveQuery
+     */
+    public function getSesiWaktu()
+    {
+        return $this->hasOne(SesiWaktu::className(), ['sesi' => 'sesi_waktu']);
+    }
+
 }

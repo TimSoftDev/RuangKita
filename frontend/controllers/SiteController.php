@@ -12,6 +12,7 @@ use frontend\models\PasswordResetRequestForm;
 use frontend\models\ResetPasswordForm;
 use frontend\models\SignupForm;
 use yii\web\UploadedFile;
+use common\models\Pesanan;
 
 class SiteController extends Controller
 {
@@ -20,10 +21,13 @@ class SiteController extends Controller
         return [
             'access' => [
                 'class' => AccessControl::className(),
-                'only' => ['logout', 'request-password-reset', 'reset-password'],
                 'rules' => [
                     [
-                        'actions' => ['request-password-reset', 'reset-password'],
+                        'actions' => ['login', 'error', 'index'],
+                        'allow' => true,
+                    ],
+                    [
+                        'actions' => ['signup', 'kalender-ruangan', 'grid-ruangan', 'request-password-reset', 'reset-password'],
                         'allow' => true,
                         'roles' => ['?'],
                     ],
@@ -48,6 +52,7 @@ class SiteController extends Controller
         return [
             'error' => [
                 'class' => 'yii\web\ErrorAction',
+                'view' => 'error',
             ],
             'captcha' => [
                 'class' => 'yii\captcha\CaptchaAction',
@@ -58,8 +63,8 @@ class SiteController extends Controller
 
     public function actionIndex()
     {
-        if (Yii::$app->user->isGuest) {
-            return $this->redirect('site/login');
+        if (!Yii::$app->user->isGuest) {
+            return $this->redirect('user/profil');
         }
 
         return $this->render('index');
@@ -90,10 +95,6 @@ class SiteController extends Controller
 
     public function actionSignup()
     {
-        if (!Yii::$app->user->isGuest) {
-            return $this->goHome();
-        }
-
         $model = new SignupForm();
         if ($model->load(Yii::$app->request->post())) {
             $model->foto = UploadedFile::getInstance($model, 'foto');
@@ -101,7 +102,7 @@ class SiteController extends Controller
 
                 Yii::$app->session->setFlash('success', 'Check your email for further instructions.');
 
-                return $this->goHome();
+                return $this->redirect('site/login');
             } else {
                 Yii::$app->session->setFlash('error', 'Sorry, we are unable to reset password for the provided email address.');
             }
@@ -147,5 +148,55 @@ class SiteController extends Controller
         return $this->render('resetPassword', [
             'model' => $model,
         ]);
+    }
+
+    public function actionKalenderRuangan()
+    {
+        $pesanan = Pesanan::find()->all();
+        
+        $tasks=[];  
+        foreach ($pesanan AS $_ruang){
+            $ruang = new \yii2fullcalendar\models\Event();
+            $ruang->id = $_ruang->id;
+
+            if ($_ruang->status == 'Menunggu Validasi') {
+                $ruang->backgroundColor='blue';
+            } else if ($_ruang->status == 'Sudah Digunakan') {
+                $ruang->backgroundColor='green';
+            } else {
+                $ruang->backgroundColor='red';
+            }
+
+            $ruang->title = $_ruang->id_ruang;
+            $ruang->start = $_ruang->tanggal_mulai; 
+            $ruang->end = $_ruang->tanggal_selesai;
+              
+            $tasks[] = $ruang;
+        }
+        
+        return $this->render('kalender-ruangan', ['ruang' => $tasks, ]);
+        
+    }
+
+    public function actionGridRuangan()
+    {
+        $searchModel = new PesananSearch();
+        $dataProvider = $searchModel->search(Yii::$app->request->queryParams);
+
+        $events = Pesanan::find()->all();
+        
+        $tasks=[];  
+        foreach ($events AS $eve){
+            $event = new \yii2fullcalendar\models\Event();
+            $event->id = $eve->id;
+            $event->backgroundColor='red';
+            $event->title = $eve->id_ruang;
+            $event->start = $eve->tanggal_mulai; 
+              
+            $tasks[] = $event;
+        }
+        
+        return $this->render('grid-ruangan', ['events' => $tasks, ]);
+        
     }
 }

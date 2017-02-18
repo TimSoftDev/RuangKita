@@ -5,13 +5,15 @@ use yii\helpers\ArrayHelper;
 use yii\bootstrap\ActiveForm;
 use common\models\Prodi;
 
-$this->title = 'Signup';
+$this->title = 'Daftar Sekarang';
 $this->params['breadcrumbs'][] = $this->title;
 ?>
 <div class="site-signup">
     <h1><?= Html::encode($this->title) ?></h1>
 
-    <p>Please fill out the following fields to signup:</p>
+    <p>Mohon diisi sesuai dengan data yang sebenar-benarnya. <br />
+    Data yang telah dimasukkan tidak dapat diubah kembali, <br/>
+    disarankan untuk menggunakan gunakan foto persegi.</p>
 
     <div class="row">
         <div class="col-lg-5">
@@ -26,7 +28,7 @@ $this->params['breadcrumbs'][] = $this->title;
                 <?= $form->field($model, 'id_prodi')
                     ->dropDownList(ArrayHelper::map(Prodi::find()->all(),
                     'id', 'nama'),
-                    ['prompt' => '=== Pilih Prodi ===']
+                    ['prompt' => 'Pilih Prodi']
                 ) ?>
 
                 <?= $form->field($model, 'email') ?>
@@ -38,7 +40,7 @@ $this->params['breadcrumbs'][] = $this->title;
                 <?= $form->field($model, 'foto')->fileInput() ?>
 
                 <div class="form-group">
-                    <?= Html::submitButton('Signup', ['class' => 'btn btn-primary', 'name' => 'signup-button']) ?>
+                    <?= Html::submitButton('Daftar', ['class' => 'btn btn-primary', 'name' => 'signup-button']) ?>
                 </div>
 
             <?php ActiveForm::end(); ?>

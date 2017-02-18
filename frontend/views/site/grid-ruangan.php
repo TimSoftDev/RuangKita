@@ -1,6 +1,7 @@
 <?php
 
 use yii\helpers\Html;
+use yii\grid\GridView;
 use yii\bootstrap\Modal;
 use yii\helpers\Url;
 
@@ -8,9 +9,12 @@ use yii\helpers\Url;
 $this->title = 'List Ruangan';
 $this->params['breadcrumbs'][] = $this->title;
 ?>
-<div class="ruangan-index">    
+<div class="ruangan-index">
 
-    <?php   
+    <h1><?= Html::encode($this->title) ?></h1>
+    
+
+    <?php   //for popup create window
      modal::begin([
          'header'=>'<h4>List Ruangan<h4>',
          'id'=>'modal',
@@ -20,11 +24,10 @@ $this->params['breadcrumbs'][] = $this->title;
      modal::end();   
     ?>
 
+<!-- Calender view -->
      <?= \yii2fullcalendar\yii2fullcalendar::widget(array(
-        'options' => [
-            'lang' => 'id',
-        ],
-        'events'=> $ruang,
-    )); ?>
+      'events'=> $events,
+  ));
+    ?>
    
 </div>

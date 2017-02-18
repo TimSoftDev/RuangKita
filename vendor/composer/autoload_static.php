@@ -17,6 +17,7 @@ class ComposerStaticInit68acd33ed08b403ab6e669baad112204
     public static $prefixLengthsPsr4 = array (
         'y' => 
         array (
+            'yiister\\gentelella\\' => 19,
             'yii\\swiftmailer\\' => 16,
             'yii\\jui\\' => 8,
             'yii\\gii\\' => 8,
@@ -26,6 +27,10 @@ class ComposerStaticInit68acd33ed08b403ab6e669baad112204
             'yii\\bootstrap\\' => 14,
             'yii\\' => 4,
             'yii2fullcalendar\\' => 17,
+        ),
+        'r' => 
+        array (
+            'rmrevin\\yii\\fontawesome\\' => 24,
         ),
         'p' => 
         array (
@@ -102,6 +107,10 @@ class ComposerStaticInit68acd33ed08b403ab6e669baad112204
     );
 
     public static $prefixDirsPsr4 = array (
+        'yiister\\gentelella\\' => 
+        array (
+            0 => __DIR__ . '/..' . '/yiister/yii2-gentelella',
+        ),
         'yii\\swiftmailer\\' => 
         array (
             0 => __DIR__ . '/..' . '/yiisoft/yii2-swiftmailer',
@@ -137,6 +146,10 @@ class ComposerStaticInit68acd33ed08b403ab6e669baad112204
         'yii2fullcalendar\\' => 
         array (
             0 => __DIR__ . '/..' . '/philippfrenzel/yii2fullcalendar',
+        ),
+        'rmrevin\\yii\\fontawesome\\' => 
+        array (
+            0 => __DIR__ . '/..' . '/rmrevin/yii2-fontawesome',
         ),
         'phpDocumentor\\Reflection\\' => 
         array (

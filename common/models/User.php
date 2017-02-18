@@ -133,4 +133,13 @@ class User extends ActiveRecord implements IdentityInterface
         return static::findOne(['foto' => $foto, 'status' => self::STATUS_ACTIVE]);
     }
 
+    public static function findByNim($nim)
+    {
+        return static::findOne(['nim' => $nim, 'status' => self::STATUS_ACTIVE]);
+    }
+
+    public static function findByIdProdi($id_prodi)
+    {
+        return static::findOne(['id_prodi' => $id_prodi, 'status' => self::STATUS_ACTIVE]);
+    }
 }

@@ -7,14 +7,9 @@ $this->title = 'Sistem Peminjaman Ruang';
 <div class="site-index">
 
     <div class="jumbotron">
-        <h1>Hallo, <strong><?= Yii::$app->user->identity->nama_depan ?></strong></h1>
+        <h1><strong>SELAMAT DATANG</strong></h1>
 
-        <p class="lead">Kamu masuk dengan menggunakan email <a><?= Yii::$app->user->identity->email ?></a></p>
-
-        <p><a class="btn btn-lg btn-success" href="user/profil">Profil</a></p>
+        <p class="lead">Ini adalah Aplikasi Sistem Peminjaman Ruang Khusus Ruang <strong><em>Video Conference</em></strong> dan Ruang <strong><em>Laboratorium</em></strong> yang ada di gedung UPT TIK UNS.</p>
     </div>
 
-    <div class="body-content">
-    <code><?= __FILE__ ?></code>
-    </div>
 </div>

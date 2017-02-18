@@ -21,10 +21,10 @@ $this->params['breadcrumbs'][] = $this->title;
     ?>
 
      <?= \yii2fullcalendar\yii2fullcalendar::widget(array(
-        'options' => [
-            'lang' => 'id',
+     	'options' => [
+        	'lang' => 'id',
         ],
-        'events'=> $ruang,
-    )); ?>
+    	'events'=> $ruang,
+  	)); ?>
    
 </div>

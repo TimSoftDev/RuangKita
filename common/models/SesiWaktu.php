@@ -10,6 +10,8 @@ use Yii;
  * @property string $sesi
  * @property string $mulai
  * @property string $selesai
+ *
+ * @property Pesanan[] $pesanans
  */
 class SesiWaktu extends \yii\db\ActiveRecord
 {
@@ -44,5 +46,13 @@ class SesiWaktu extends \yii\db\ActiveRecord
             'mulai' => 'Mulai',
             'selesai' => 'Selesai',
         ];
+    }
+
+    /**
+     * @return \yii\db\ActiveQuery
+     */
+    public function getPesanan()
+    {
+        return $this->hasMany(Pesanan::className(), ['sesi_waktu' => 'sesi']);
     }
 }

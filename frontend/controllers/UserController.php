@@ -9,10 +9,9 @@ use yii\filters\AccessControl;
 use yii\web\Controller;
 use common\models\Pesanan;
 use common\models\PesananSearch;
-use common\models\User_;
+use common\models\User;
 
 use yii\helpers\Json;
-
 use \DateTime;
 
 
@@ -55,28 +54,9 @@ class UserController extends Controller
         return $this->render('index');
     }
 
-    public function actionAgend($start=NULL,$end=NULL,$_=NULL){
-
-        \Yii::$app->response->format = \yii\web\Response::FORMAT_JSON;
-
-        $times = Agenda::find()->all();
-
-        $events = array();
-
-        foreach ($times AS $time){
-            //Testing
-            $Event = new \yii2fullcalendar\models\Event();
-            $Event->id = $time->id;
-            $Event->title = $time->id_ruang;
-            $Event->start = $time->tanggal_mulai;
-            $Event->end = $time->tanggal_selesai;
-            $events[] = $Event;
-        }
-    }
-
     public function actionProfil()
     {
-        $model = User_::find()
+        $model = User::find()
             ->where([ 'id' => Yii::$app->user->identity->id ])
             ->one();
 
@@ -85,28 +65,43 @@ class UserController extends Controller
         ]);
     }
 
-    public function actionRuangan()
+    public function actionPesanan()
     {
-        $searchModel = new PesananSearch();
-        $dataProvider = $searchModel->search(Yii::$app->request->queryParams);
+        $pesanan = Pesanan::find()
+        ->where(['nim_mahasiswa' => Yii::$app->user->identity->nim] )
+        ->all();
+    
+        $tasks=[];  
+        foreach ($pesanan AS $_ruang){
+            $ruang = new \yii2fullcalendar\models\Event();
+            $ruang->id = $_ruang->nim_mahasiswa;
 
-        $events = Pesanan::find()->all();
-        
-      $tasks=[];  
-      foreach ($events AS $eve){
-      //Testing
-      $event = new \yii2fullcalendar\models\Event();
-      $event->id = $eve->id;
-      $event->backgroundColor='red';
-      $event->title = $eve->id_ruang;
-      $event->start = $eve->tanggal_mulai; 
-      
-      $tasks[] = $event;
+            if ($_ruang->status == 'Menunggu Validasi') {
+                $ruang->backgroundColor='blue';
+            } else if ($_ruang->status == 'Aktif') {
+                $ruang->backgroundColor='green';
+            } else {
+                $ruang->backgroundColor='red';
+            }
+
+            $ruang->title = $_ruang->id_ruang;
+            $ruang->start = $_ruang->tanggal_mulai; 
+            $ruang->end = $_ruang->tanggal_selesai;
+              
+            $tasks[] = $ruang;
+        }
+    
+        return $this->render('pesanan', ['ruang' => $tasks, ]);
     }
-        
-        return $this->render('ruangan', ['events' => $tasks,
-            ]);
-        
+
+    public function actionPesan()
+    {
+        return $this->render('pesan');
+    }
+
+    public function actionBantuan()
+    {
+        return $this->render('bantuan');
     }
 
 }

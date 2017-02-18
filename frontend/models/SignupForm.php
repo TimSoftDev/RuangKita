@@ -3,6 +3,7 @@ namespace frontend\models;
 
 use yii\base\Model;
 use common\models\User;
+use common\models\Prodi;
 use yii\web\UploadedFile;
 
 class SignupForm extends Model
@@ -24,7 +25,7 @@ class SignupForm extends Model
         return [
             ['nim', 'trim'],
             ['nim', 'required'],            
-            ['nim', 'unique', 'targetClass' => '\common\models\User', 'message' => 'This nim has already been taken.'],
+            ['nim', 'unique', 'targetClass' => '\common\models\User', 'message' => 'NIM sudah digunakan.'],
             ['nim', 'string', 'min' => 8, 'max' => 8],
 
             ['nama_depan', 'trim'],
@@ -37,7 +38,7 @@ class SignupForm extends Model
 
             ['username', 'trim'],
             ['username', 'required'],
-            ['username', 'unique', 'targetClass' => '\common\models\User', 'message' => 'This username has already been taken.'],
+            ['username', 'unique', 'targetClass' => '\common\models\User', 'message' => 'Username tidak tersedia.'],
             ['username', 'string', 'min' => 2, 'max' => 255],
 
             ['id_prodi', 'trim'],
@@ -47,13 +48,26 @@ class SignupForm extends Model
             ['email', 'required'],
             ['email', 'email'],
             ['email', 'string', 'max' => 255],
-            ['email', 'unique', 'targetClass' => '\common\models\User', 'message' => 'This email address has already been taken.'],
+            ['email', 'unique', 'targetClass' => '\common\models\User', 'message' => 'Email tidak tersedia.'],
 
             ['password', 'required'],
             ['password', 'string', 'min' => 6],
 
-            [['foto'], 'file', 'skipOnEmpty' => false, 'extensions' => 'png, jpg']
+            [['foto'], 'file', 'skipOnEmpty' => false, 'extensions' => 'png, jpg, jpeg']
         ];
+    }
+
+    public function attributeLabels()
+    {
+        return [
+            'nim' => 'NIM',
+            'id_prodi' => 'Nama Prodi',
+        ];
+    }
+
+    public function getIdProdi()
+    {
+        return $this->hasOne(Prodi::className(), ['id' => 'id_prodi']);
     }
 
     public function signup()
@@ -73,8 +87,8 @@ class SignupForm extends Model
         $user->generateAuthKey();
 
         $namaFoto = strtolower($this->username);
-        $user->foto = 'user/' . $namaFoto. '.' . $this->foto->extension;
-        $this->foto->saveAs('user/' . $namaFoto . '.' . $this->foto->extension);
+        $user->foto = '@web/uploads/' . $namaFoto. '.' . $this->foto->extension;
+        $this->foto->saveAs('uploads/' . $namaFoto . '.' . $this->foto->extension);
 
         return $user->save() ? $user : null;
     }
