@@ -10,6 +10,7 @@ use yii\web\Controller;
 use common\models\Pesanan;
 use common\models\PesananSearch;
 use common\models\User;
+use common\models\Ruangan;
 
 use yii\helpers\Json;
 use \DateTime;
@@ -65,16 +66,14 @@ class UserController extends Controller
         ]);
     }
 
-    public function actionPesanan()
+    public function actionRuangan()
     {
-        $pesanan = Pesanan::find()
-        ->where(['nim_mahasiswa' => Yii::$app->user->identity->nim] )
-        ->all();
-    
+        $pesanan = Ruangan::find()->all();
+        
         $tasks=[];  
         foreach ($pesanan AS $_ruang){
             $ruang = new \yii2fullcalendar\models\Event();
-            $ruang->id = $_ruang->nim_mahasiswa;
+            $ruang->id = $_ruang->id;
 
             if ($_ruang->status == 'Menunggu Validasi') {
                 $ruang->backgroundColor='blue';
@@ -84,19 +83,62 @@ class UserController extends Controller
                 $ruang->backgroundColor='red';
             }
 
-            $ruang->title = $_ruang->id_ruang;
-            $ruang->start = $_ruang->tanggal_mulai; 
-            $ruang->end = $_ruang->tanggal_selesai;
+            $ruang->title = $_ruang->ruang;
+            $ruang->start = $_ruang->waktu_mulai; 
+            $ruang->end = $_ruang->waktu_selesai;
+              
+            $tasks[] = $ruang;
+        }
+    
+        return $this->render('ruangan', ['ruang' => $tasks, ]);
+    }
+
+    public function actionPesan()
+    {
+        $model = new Ruangan();
+
+        if ($model->load(Yii::$app->request->post())) {
+            $model->nim_mahasiswa = Yii::$app->user->identity->nim;
+            $model->status = 'Menunggu Validasi';
+            $model->waktu_pesan = date('Y-m-d H:i');            
+            $model->waktu_validasi = date('Y-m-d H:i');
+            $model->save();
+            return $this->redirect(['pesanan']);
+        } else {
+            return $this->render('pesan', [
+                'model' => $model,
+            ]);
+        }
+    }
+
+    public function actionPesanan()
+    {
+        $pesanan = Ruangan::find()
+        ->where(['nim_mahasiswa' => Yii::$app->user->identity->nim] )
+        ->all();
+    
+        $tasks=[];  
+        foreach ($pesanan AS $_ruang){
+            $ruang = new \yii2fullcalendar\models\Event();
+            $ruang->id = $_ruang->nim_mahasiswa;
+
+            if ($_ruang->status == 'Menunggu Validasi') {
+                $ruang->backgroundColor='orange';
+                $ruang->borderColor='orange';
+            } else if ($_ruang->status == 'Aktif') {
+                $ruang->backgroundColor='green';
+            } else {
+                $ruang->backgroundColor='red';
+            }
+
+            $ruang->title = $_ruang->ruang;
+            $ruang->start = $_ruang->waktu_mulai; 
+            $ruang->end = $_ruang->waktu_selesai;
               
             $tasks[] = $ruang;
         }
     
         return $this->render('pesanan', ['ruang' => $tasks, ]);
-    }
-
-    public function actionPesan()
-    {
-        return $this->render('pesan');
     }
 
     public function actionBantuan()

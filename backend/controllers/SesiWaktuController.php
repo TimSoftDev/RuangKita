@@ -65,7 +65,9 @@ class SesiWaktuController extends Controller
     {
         $model = new SesiWaktu();
 
-        if ($model->load(Yii::$app->request->post()) && $model->save()) {
+        if ($model->load(Yii::$app->request->post())) {                       
+            $model->tampil = $model->mulai . ' - ' . $model->selesai;
+            $model->save();
             return $this->redirect(['view', 'id' => $model->sesi]);
         } else {
             return $this->render('create', [
@@ -84,7 +86,9 @@ class SesiWaktuController extends Controller
     {
         $model = $this->findModel($id);
 
-        if ($model->load(Yii::$app->request->post()) && $model->save()) {
+        if ($model->load(Yii::$app->request->post())) {                       
+            $model->tampil = $model->mulai . ' - ' . $model->selesai;
+            $model->save();
             return $this->redirect(['view', 'id' => $model->sesi]);
         } else {
             return $this->render('update', [

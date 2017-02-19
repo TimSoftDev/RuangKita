@@ -5,13 +5,13 @@ namespace common\models;
 use Yii;
 
 /**
- * This is the model class for table "ruang".
+ * This is the model class for table "{{%ruang}}".
  *
  * @property integer $id
  * @property string $nama
  * @property integer $kapasitas
  *
- * @property Pesanan[] $pesanans
+ * @property Ruangan[] $ruangans
  */
 class Ruang extends \yii\db\ActiveRecord
 {
@@ -20,7 +20,7 @@ class Ruang extends \yii\db\ActiveRecord
      */
     public static function tableName()
     {
-        return 'ruang';
+        return '{{%ruang}}';
     }
 
     /**
@@ -50,8 +50,8 @@ class Ruang extends \yii\db\ActiveRecord
     /**
      * @return \yii\db\ActiveQuery
      */
-    public function getPesanan()
+    public function getRuangans()
     {
-        return $this->hasMany(Pesanan::className(), ['id_ruang' => 'id']);
+        return $this->hasMany(Ruangan::className(), ['ruang' => 'nama']);
     }
 }

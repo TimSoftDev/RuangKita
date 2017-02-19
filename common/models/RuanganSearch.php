@@ -1,16 +1,16 @@
 <?php
 
-namespace backend\models;
+namespace common\models;
 
 use Yii;
 use yii\base\Model;
 use yii\data\ActiveDataProvider;
-use common\models\SesiWaktu;
+use common\models\Ruangan;
 
 /**
- * SesiWaktuSearch represents the model behind the search form about `common\models\SesiWaktu`.
+ * RuanganSearch represents the model behind the search form about `common\models\Ruangan`.
  */
-class SesiWaktuSearch extends SesiWaktu
+class RuanganSearch extends Ruangan
 {
     /**
      * @inheritdoc
@@ -18,7 +18,8 @@ class SesiWaktuSearch extends SesiWaktu
     public function rules()
     {
         return [
-            [['sesi', 'mulai', 'selesai', 'tampil'], 'safe'],
+            [['id'], 'integer'],
+            [['nim_mahasiswa', 'ruang', 'no_surat', 'waktu_mulai', 'waktu_selesai', 'status', 'waktu_pesan', 'waktu_validasi', 'validator'], 'safe'],
         ];
     }
 
@@ -40,7 +41,7 @@ class SesiWaktuSearch extends SesiWaktu
      */
     public function search($params)
     {
-        $query = SesiWaktu::find();
+        $query = Ruangan::find();
 
         // add conditions that should always apply here
 
@@ -58,12 +59,18 @@ class SesiWaktuSearch extends SesiWaktu
 
         // grid filtering conditions
         $query->andFilterWhere([
-            'mulai' => $this->mulai,
-            'selesai' => $this->selesai,
+            'id' => $this->id,
+            'waktu_mulai' => $this->waktu_mulai,
+            'waktu_selesai' => $this->waktu_selesai,
+            'waktu_pesan' => $this->waktu_pesan,
+            'waktu_validasi' => $this->waktu_validasi,
         ]);
 
-        $query->andFilterWhere(['like', 'sesi', $this->sesi])
-            ->andFilterWhere(['like', 'tampil', $this->tampil]);
+        $query->andFilterWhere(['like', 'nim_mahasiswa', $this->nim_mahasiswa])
+            ->andFilterWhere(['like', 'ruang', $this->ruang])
+            ->andFilterWhere(['like', 'no_surat', $this->no_surat])
+            ->andFilterWhere(['like', 'status', $this->status])
+            ->andFilterWhere(['like', 'validator', $this->validator]);
 
         return $dataProvider;
     }

@@ -5,7 +5,7 @@ namespace common\models;
 use Yii;
 
 /**
- * This is the model class for table "prodi".
+ * This is the model class for table "{{%prodi}}".
  *
  * @property integer $id
  * @property integer $id_fakultas
@@ -21,7 +21,7 @@ class Prodi extends \yii\db\ActiveRecord
      */
     public static function tableName()
     {
-        return 'prodi';
+        return '{{%prodi}}';
     }
 
     /**
@@ -60,8 +60,8 @@ class Prodi extends \yii\db\ActiveRecord
     /**
      * @return \yii\db\ActiveQuery
      */
-    public function getUser()
+    public function getUsers()
     {
-        return $this->hasMany(User::className(), ['id_prodi' => 'id']);
+        return $this->hasMany(User::className(), ['prodi' => 'nama']);
     }
 }

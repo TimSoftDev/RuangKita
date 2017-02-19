@@ -4,13 +4,28 @@ namespace common\models;
 
 use Yii;
 
+/**
+ * This is the model class for table "{{%fakultas}}".
+ *
+ * @property integer $id
+ * @property string $nama
+ * @property string $alamat
+ *
+ * @property Prodi[] $prodis
+ */
 class Fakultas extends \yii\db\ActiveRecord
 {
+    /**
+     * @inheritdoc
+     */
     public static function tableName()
     {
         return '{{%fakultas}}';
     }
 
+    /**
+     * @inheritdoc
+     */
     public function rules()
     {
         return [
@@ -20,6 +35,9 @@ class Fakultas extends \yii\db\ActiveRecord
         ];
     }
 
+    /**
+     * @inheritdoc
+     */
     public function attributeLabels()
     {
         return [
@@ -29,7 +47,10 @@ class Fakultas extends \yii\db\ActiveRecord
         ];
     }
 
-    public function getProdi()
+    /**
+     * @return \yii\db\ActiveQuery
+     */
+    public function getProdis()
     {
         return $this->hasMany(Prodi::className(), ['id_fakultas' => 'id']);
     }

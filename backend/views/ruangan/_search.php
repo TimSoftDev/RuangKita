@@ -4,11 +4,11 @@ use yii\helpers\Html;
 use yii\widgets\ActiveForm;
 
 /* @var $this yii\web\View */
-/* @var $model backend\models\PesananSearch */
+/* @var $model common\models\RuanganSearch */
 /* @var $form yii\widgets\ActiveForm */
 ?>
 
-<div class="pesanan-search">
+<div class="ruangan-search">
 
     <?php $form = ActiveForm::begin([
         'action' => ['index'],
@@ -19,21 +19,21 @@ use yii\widgets\ActiveForm;
 
     <?= $form->field($model, 'nim_mahasiswa') ?>
 
-    <?= $form->field($model, 'id_ruang') ?>
+    <?= $form->field($model, 'ruang') ?>
 
     <?= $form->field($model, 'no_surat') ?>
 
-    <?= $form->field($model, 'sesi_waktu') ?>
+    <?= $form->field($model, 'waktu_mulai') ?>
 
-    <?php // echo $form->field($model, 'tanggal_mulai') ?>
-
-    <?php // echo $form->field($model, 'tanggal_selesai') ?>
+    <?php // echo $form->field($model, 'waktu_selesai') ?>
 
     <?php // echo $form->field($model, 'status') ?>
 
     <?php // echo $form->field($model, 'waktu_pesan') ?>
 
     <?php // echo $form->field($model, 'waktu_validasi') ?>
+
+    <?php // echo $form->field($model, 'validator') ?>
 
     <div class="form-group">
         <?= Html::submitButton('Search', ['class' => 'btn btn-primary']) ?>

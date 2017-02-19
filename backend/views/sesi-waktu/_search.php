@@ -21,6 +21,8 @@ use yii\widgets\ActiveForm;
 
     <?= $form->field($model, 'selesai') ?>
 
+    <?= $form->field($model, 'tampil') ?>
+
     <div class="form-group">
         <?= Html::submitButton('Search', ['class' => 'btn btn-primary']) ?>
         <?= Html::resetButton('Reset', ['class' => 'btn btn-default']) ?>

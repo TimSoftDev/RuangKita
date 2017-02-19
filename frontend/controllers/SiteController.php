@@ -12,7 +12,8 @@ use frontend\models\PasswordResetRequestForm;
 use frontend\models\ResetPasswordForm;
 use frontend\models\SignupForm;
 use yii\web\UploadedFile;
-use common\models\Pesanan;
+use common\models\Ruangan;
+use common\models\RuanganSearch;
 
 class SiteController extends Controller
 {
@@ -152,7 +153,7 @@ class SiteController extends Controller
 
     public function actionKalenderRuangan()
     {
-        $pesanan = Pesanan::find()->all();
+        $pesanan = Ruangan::find()->all();
         
         $tasks=[];  
         foreach ($pesanan AS $_ruang){
@@ -160,16 +161,19 @@ class SiteController extends Controller
             $ruang->id = $_ruang->id;
 
             if ($_ruang->status == 'Menunggu Validasi') {
-                $ruang->backgroundColor='blue';
-            } else if ($_ruang->status == 'Sudah Digunakan') {
-                $ruang->backgroundColor='green';
+                $ruang->backgroundColor= '#FFBB40';
+                $ruang->borderColor= '#FFA500';
+            } else if ($_ruang->status == 'Aktif') {
+                $ruang->backgroundColor= '#40A040';
+                $ruang->borderColor= '#008000';
             } else {
-                $ruang->backgroundColor='red';
+                $ruang->backgroundColor= '#FF4040';
+                $ruang->borderColor= '#FF0000';
             }
 
-            $ruang->title = $_ruang->id_ruang;
-            $ruang->start = $_ruang->tanggal_mulai; 
-            $ruang->end = $_ruang->tanggal_selesai;
+            $ruang->title = $_ruang->ruang;
+            $ruang->start = $_ruang->waktu_mulai; 
+            $ruang->end = $_ruang->waktu_selesai;
               
             $tasks[] = $ruang;
         }
@@ -180,10 +184,10 @@ class SiteController extends Controller
 
     public function actionGridRuangan()
     {
-        $searchModel = new PesananSearch();
+        $searchModel = new RuanganSearch();
         $dataProvider = $searchModel->search(Yii::$app->request->queryParams);
 
-        $events = Pesanan::find()->all();
+        $events = Ruangan::find()->all();
         
         $tasks=[];  
         foreach ($events AS $eve){

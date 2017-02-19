@@ -10,19 +10,20 @@ $this->params['breadcrumbs'][] = $this->title;
 ?>
 <div class="ruangan-index">    
 
-    <?php   
-     modal::begin([
-         'header'=>'<h4>List Ruangan<h4>',
-         'id'=>'modal',
-         'size'=>'modal-lg',         
-     ]);
-     echo "<div id='modalContent'></div>";
-     modal::end();   
-    ?>
+    <div class="">
+
+    <p>
+        <?= Html::a('Pesan Sekarang', ['tambah'], ['class' => 'btn btn-success']) ?>
+    </p>
+
+    </div>
 
      <?= \yii2fullcalendar\yii2fullcalendar::widget(array(
         'options' => [
             'lang' => 'id',
+        ],
+        'clientOptions' => [
+            'selectable' => true,
         ],
         'events'=> $ruang,
     )); ?>

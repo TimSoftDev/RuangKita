@@ -3,16 +3,16 @@
 namespace backend\controllers;
 
 use Yii;
-use common\models\Pesanan;
-use common\models\PesananSearch;
+use common\models\Ruangan;
+use common\models\RuanganSearch;
 use yii\web\Controller;
 use yii\web\NotFoundHttpException;
 use yii\filters\VerbFilter;
 
 /**
- * PesananController implements the CRUD actions for Pesanan model.
+ * RuanganController implements the CRUD actions for Ruangan model.
  */
-class PesananController extends Controller
+class RuanganController extends Controller
 {
     /**
      * @inheritdoc
@@ -30,12 +30,12 @@ class PesananController extends Controller
     }
 
     /**
-     * Lists all Pesanan models.
+     * Lists all Ruangan models.
      * @return mixed
      */
     public function actionIndex()
     {
-        $searchModel = new PesananSearch();
+        $searchModel = new RuanganSearch();
         $dataProvider = $searchModel->search(Yii::$app->request->queryParams);
 
         return $this->render('index', [
@@ -45,7 +45,7 @@ class PesananController extends Controller
     }
 
     /**
-     * Displays a single Pesanan model.
+     * Displays a single Ruangan model.
      * @param integer $id
      * @return mixed
      */
@@ -57,13 +57,13 @@ class PesananController extends Controller
     }
 
     /**
-     * Creates a new Pesanan model.
+     * Creates a new Ruangan model.
      * If creation is successful, the browser will be redirected to the 'view' page.
      * @return mixed
      */
     public function actionCreate()
     {
-        $model = new Pesanan();
+        $model = new Ruangan();
 
         if ($model->load(Yii::$app->request->post()) && $model->save()) {
             return $this->redirect(['view', 'id' => $model->id]);
@@ -75,7 +75,7 @@ class PesananController extends Controller
     }
 
     /**
-     * Updates an existing Pesanan model.
+     * Updates an existing Ruangan model.
      * If update is successful, the browser will be redirected to the 'view' page.
      * @param integer $id
      * @return mixed
@@ -94,7 +94,7 @@ class PesananController extends Controller
     }
 
     /**
-     * Deletes an existing Pesanan model.
+     * Deletes an existing Ruangan model.
      * If deletion is successful, the browser will be redirected to the 'index' page.
      * @param integer $id
      * @return mixed
@@ -107,15 +107,15 @@ class PesananController extends Controller
     }
 
     /**
-     * Finds the Pesanan model based on its primary key value.
+     * Finds the Ruangan model based on its primary key value.
      * If the model is not found, a 404 HTTP exception will be thrown.
      * @param integer $id
-     * @return Pesanan the loaded model
+     * @return Ruangan the loaded model
      * @throws NotFoundHttpException if the model cannot be found
      */
     protected function findModel($id)
     {
-        if (($model = Pesanan::findOne($id)) !== null) {
+        if (($model = Ruangan::findOne($id)) !== null) {
             return $model;
         } else {
             throw new NotFoundHttpException('The requested page does not exist.');

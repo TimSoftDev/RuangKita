@@ -4,19 +4,19 @@ use yii\helpers\Html;
 use yii\grid\GridView;
 use yii\widgets\Pjax;
 /* @var $this yii\web\View */
-/* @var $searchModel backend\models\PesananSearch */
+/* @var $searchModel common\models\RuanganSearch */
 /* @var $dataProvider yii\data\ActiveDataProvider */
 
-$this->title = 'Pesanans';
+$this->title = 'Ruangans';
 $this->params['breadcrumbs'][] = $this->title;
 ?>
-<div class="pesanan-index">
+<div class="ruangan-index">
 
     <h1><?= Html::encode($this->title) ?></h1>
     <?php // echo $this->render('_search', ['model' => $searchModel]); ?>
 
     <p>
-        <?= Html::a('Create Pesanan', ['create'], ['class' => 'btn btn-success']) ?>
+        <?= Html::a('Create Ruangan', ['create'], ['class' => 'btn btn-success']) ?>
     </p>
 <?php Pjax::begin(); ?>    <?= GridView::widget([
         'dataProvider' => $dataProvider,
@@ -26,14 +26,14 @@ $this->params['breadcrumbs'][] = $this->title;
 
             'id',
             'nim_mahasiswa',
-            'id_ruang',
+            'ruang',
             'no_surat',
-            'sesi_waktu',
-            // 'tanggal_mulai',
-            // 'tanggal_selesai',
+            'waktu_mulai',
+            // 'waktu_selesai',
             // 'status',
             // 'waktu_pesan',
             // 'waktu_validasi',
+            // 'validator',
 
             ['class' => 'yii\grid\ActionColumn'],
         ],
