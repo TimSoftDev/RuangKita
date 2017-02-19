@@ -25,9 +25,9 @@ $this->params['breadcrumbs'][] = $this->title;
 
                 <?= $form->field($model, 'nama_belakang') ?>
 
-                <?= $form->field($model, 'id_prodi')
+                <?= $form->field($model, 'prodi')
                     ->dropDownList(ArrayHelper::map(Prodi::find()->all(),
-                    'id', 'nama'),
+                    'nama', 'nama'),
                     ['prompt' => 'Pilih Prodi']
                 ) ?>
 

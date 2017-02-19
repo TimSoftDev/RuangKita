@@ -10,17 +10,14 @@ $this->params['breadcrumbs'][] = $this->title;
 ?>
 <div class="ruangan-index">    
 
-    <?php   
-     modal::begin([
-         'header'=>'<h4>List Ruangan<h4>',
-         'id'=>'modal',
-         'size'=>'modal-lg',         
-     ]);
-     echo "<div id='modalContent'></div>";
-     modal::end();   
-    ?>
+    <button class="btn btn-sm" style="background-color: #FFBB40; border-color: #FFA500; color: #fff;">Menunggu Validasi</button>
+    <button class="btn btn-sm" style="background-color: #40A040; border-color: #008000; color: #fff;">Dalam Masa Aktif</button>
+    <button class="btn btn-sm" style="background-color: #FF4040; border-color: #FF0000; color: #fff;">Sudah Kadaluarsa</button>
 
-     <?= \yii2fullcalendar\yii2fullcalendar::widget(array(
+
+    <div style="margin-top: 32px;"></div>
+
+    <?= \yii2fullcalendar\yii2fullcalendar::widget(array(
         'options' => [
             'lang' => 'id',
         ],

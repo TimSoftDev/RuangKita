@@ -1,6 +1,7 @@
 <?php
 
 use yii\helpers\Html;
+use kartik\alert\AlertBlock;
 
 $bundle = yiister\gentelella\assets\Asset::register($this);
 
@@ -101,21 +102,7 @@ if ($_foto == '') {
                                 echo Html::tag('h3', '-------------------------------------');
                                 $menuItems[] = ["label" => "Home", "url" => ["user/index"], "icon" => "home"];
                                 $menuItems[] = ['label' => 'Pesan Ruangan', 'url' => ['/user/ruangan'], 'icon' => 'list'];
-                                $menuItems[] = [
-                                    'label' => 'Status Pesanan',
-                                    'url' => '#',
-                                    'icon' => 'flag',
-                                    'items' => [
-                                        [
-                                            "label" => "Tampilkan Kalender",
-                                            "url" => ["/user/kalender-ruangan"],
-                                        ],
-                                        [
-                                            "label" => "Tampilkan Grid",
-                                            "url" => ["/user/grid-ruangan"],
-                                        ],
-                                    ],
-                                ];                               
+                                $menuItems[] = ['label' => 'Pesananku', 'url' => ['/user/pesanan'], 'icon' => 'flag'];                               
                             }
                             echo \yiister\gentelella\widgets\Menu::widget([
                                 'items' => $menuItems,
@@ -157,9 +144,6 @@ if ($_foto == '') {
                             <ul class="dropdown-menu dropdown-usermenu pull-right">
                                 <li>
                                     <?= Html::a('<i class="fa fa-id-card pull-right"></i> Profil', ['/user/profil']) ?>
-                                </li>
-                                <li>
-                                    <?= Html::a('<i class="fa fa-question pull-right"></i> Bantuan', ['/user/bantuan']) ?>
                                 </li>
                                 <li><?= Html::a(
                                     '<i class="fa fa-sign-out pull-right"></i> Keluar',
@@ -213,6 +197,11 @@ if ($_foto == '') {
             <?php endif; ?>
             <div class="clearfix"></div>
 
+            <?= AlertBlock::widget([
+                'type' => AlertBlock::TYPE_ALERT,
+                'useSessionFlash' => true
+            ]); ?>
+            
             <?= $content ?>
 
             <div style="padding-top: 20px; background-color: #f7f7f7"></div>

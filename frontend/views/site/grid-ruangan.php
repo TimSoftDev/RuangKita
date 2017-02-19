@@ -2,32 +2,26 @@
 
 use yii\helpers\Html;
 use yii\grid\GridView;
-use yii\bootstrap\Modal;
-use yii\helpers\Url;
+use yii\widgets\Pjax;
+/* @var $this yii\web\View */
+/* @var $searchModel common\models\RuanganSearch */
+/* @var $dataProvider yii\data\ActiveDataProvider */
 
-
-$this->title = 'List Ruangan';
+$this->title = 'Tampilkan Grid';
 $this->params['breadcrumbs'][] = $this->title;
 ?>
-<div class="ruangan-index">
+<div class="site-grid-ruangan">
 
-    <h1><?= Html::encode($this->title) ?></h1>
-    
+<?php Pjax::begin(); ?>    <?= GridView::widget([
+        'dataProvider' => $dataProvider,
+        'filterModel' => $searchModel,
+        'columns' => [
+            ['class' => 'yii\grid\SerialColumn'],
 
-    <?php   //for popup create window
-     modal::begin([
-         'header'=>'<h4>List Ruangan<h4>',
-         'id'=>'modal',
-         'size'=>'modal-lg',         
-     ]);
-     echo "<div id='modalContent'></div>";
-     modal::end();   
-    ?>
-
-<!-- Calender view -->
-     <?= \yii2fullcalendar\yii2fullcalendar::widget(array(
-      'events'=> $events,
-  ));
-    ?>
-   
-</div>
+            'ruang',
+            'waktu_mulai',
+            'waktu_selesai',
+            'status',
+        ],
+    ]); ?>
+<?php Pjax::end(); ?></div>

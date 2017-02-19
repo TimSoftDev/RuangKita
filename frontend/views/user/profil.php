@@ -32,7 +32,11 @@ $this->params['breadcrumbs'][] = $this->title;
                 ], 
                 [                      
                     'label' => 'Nama' ,
-                    'value' => $model->nama_depan . ' ' . $model->nama_belakang,
+                    'value' => strtoupper($model->nama_depan . ' ' . $model->nama_belakang),
+                ],
+                [                      
+                    'label' => 'Prodi' ,
+                    'value' => strtoupper($model->prodi),
                 ], 
                 [                      
                     'label' => 'Username' ,
@@ -41,18 +45,10 @@ $this->params['breadcrumbs'][] = $this->title;
                 'email:email',
             ],
         ]) ?>
+
         <p>
-            <?php
-              Modal::begin([
-                  'header' => '<h3>' . $model->nama_depan . ' ' . $model->nama_belakang .'</h3>',
-                  'footer' => date('l, d M Y h:i'),
-                  'toggleButton' => ['label' => 'Lihat Pesananku', 'class' => 'btn btn-flat btn-primary'],
-              ]);
-
-              echo 'Ini adalah sebuah modal...';
-
-              Modal::end();
-            ?>
+          <?= Html::a('Pesan Sekarang', ['pesan'], ['class' => 'btn btn-primary']) ?>
+          <?= Html::a('Lihat Pesananku', ['pesanan'], ['class' => 'btn btn-default']) ?>
         </p>
     </div>
 </div>

@@ -11,7 +11,7 @@ class SignupForm extends Model
     public $nim;
     public $nama_depan;
     public $nama_belakang;
-    public $id_prodi;
+    public $prodi;
     public $username;
     public $email;
     public $password;
@@ -41,8 +41,8 @@ class SignupForm extends Model
             ['username', 'unique', 'targetClass' => '\common\models\User', 'message' => 'Username tidak tersedia.'],
             ['username', 'string', 'min' => 2, 'max' => 255],
 
-            ['id_prodi', 'trim'],
-            ['id_prodi', 'required'],
+            ['prodi', 'trim'],
+            ['prodi', 'required'],
 
             ['email', 'trim'],
             ['email', 'required'],
@@ -61,13 +61,13 @@ class SignupForm extends Model
     {
         return [
             'nim' => 'NIM',
-            'id_prodi' => 'Nama Prodi',
+            'prodi' => 'Nama Prodi',
         ];
     }
 
-    public function getIdProdi()
+    public function getProdi()
     {
-        return $this->hasOne(Prodi::className(), ['id' => 'id_prodi']);
+        return $this->hasOne(Prodi::className(), ['nama' => 'prodi']);
     }
 
     public function signup()
@@ -80,7 +80,7 @@ class SignupForm extends Model
         $user->nim = strtoupper($this->nim);        
         $user->nama_depan = ucwords($this->nama_depan);
         $user->nama_belakang = ucwords($this->nama_belakang);
-        $user->id_prodi = $this->id_prodi;
+        $user->prodi = $this->prodi;
         $user->username = strtolower($this->username);
         $user->email = strtolower($this->email);
         $user->setPassword($this->password);
@@ -93,4 +93,3 @@ class SignupForm extends Model
         return $user->save() ? $user : null;
     }
 }
-

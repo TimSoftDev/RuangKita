@@ -55,10 +55,6 @@ class SiteController extends Controller
                 'class' => 'yii\web\ErrorAction',
                 'view' => 'error',
             ],
-            'captcha' => [
-                'class' => 'yii\captcha\CaptchaAction',
-                'fixedVerifyCode' => YII_ENV_TEST ? 'testme' : null,
-            ],
         ];
     }
 
@@ -103,7 +99,7 @@ class SiteController extends Controller
 
                 Yii::$app->session->setFlash('success', 'Check your email for further instructions.');
 
-                return $this->redirect('site/login');
+                return $this->redirect('login');
             } else {
                 Yii::$app->session->setFlash('error', 'Sorry, we are unable to reset password for the provided email address.');
             }
@@ -153,10 +149,10 @@ class SiteController extends Controller
 
     public function actionKalenderRuangan()
     {
-        $pesanan = Ruangan::find()->all();
+        $ruangan = Ruangan::find()->all();
         
         $tasks=[];  
-        foreach ($pesanan AS $_ruang){
+        foreach ($ruangan AS $_ruang){
             $ruang = new \yii2fullcalendar\models\Event();
             $ruang->id = $_ruang->id;
 
@@ -187,20 +183,9 @@ class SiteController extends Controller
         $searchModel = new RuanganSearch();
         $dataProvider = $searchModel->search(Yii::$app->request->queryParams);
 
-        $events = Ruangan::find()->all();
-        
-        $tasks=[];  
-        foreach ($events AS $eve){
-            $event = new \yii2fullcalendar\models\Event();
-            $event->id = $eve->id;
-            $event->backgroundColor='red';
-            $event->title = $eve->id_ruang;
-            $event->start = $eve->tanggal_mulai; 
-              
-            $tasks[] = $event;
-        }
-        
-        return $this->render('grid-ruangan', ['events' => $tasks, ]);
-        
+        return $this->render('grid-ruangan', [
+            'searchModel' => $searchModel,
+            'dataProvider' => $dataProvider,
+        ]);
     }
 }

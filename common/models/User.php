@@ -138,8 +138,8 @@ class User extends ActiveRecord implements IdentityInterface
         return static::findOne(['nim' => $nim, 'status' => self::STATUS_ACTIVE]);
     }
 
-    public static function findByIdProdi($id_prodi)
+    public static function findByProdi($prodi)
     {
-        return static::findOne(['id_prodi' => $id_prodi, 'status' => self::STATUS_ACTIVE]);
+        return static::findOne(['prodi' => $prodi, 'status' => self::STATUS_ACTIVE]);
     }
 }

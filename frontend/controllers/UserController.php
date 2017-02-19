@@ -7,13 +7,10 @@ use yii\web\BadRequestHttpException;
 use yii\filters\VerbFilter;
 use yii\filters\AccessControl;
 use yii\web\Controller;
-use common\models\Pesanan;
-use common\models\PesananSearch;
 use common\models\User;
 use common\models\Ruangan;
-
-use yii\helpers\Json;
-use \DateTime;
+use common\models\RuanganSearch;
+use frontend\models\PesanRuanganForm;
 
 
 class UserController extends Controller
@@ -38,10 +35,6 @@ class UserController extends Controller
         return [
             'error' => [
                 'class' => 'yii\web\ErrorAction',
-            ],
-            'captcha' => [
-                'class' => 'yii\captcha\CaptchaAction',
-                'fixedVerifyCode' => YII_ENV_TEST ? 'testme' : null,
             ],
         ];
     }
@@ -68,19 +61,25 @@ class UserController extends Controller
 
     public function actionRuangan()
     {
-        $pesanan = Ruangan::find()->all();
+        $searchModel = new RuanganSearch();
+        $dataProvider = $searchModel->search(Yii::$app->request->queryParams);
+
+        $ruangan = Ruangan::find()->all();
         
         $tasks=[];  
-        foreach ($pesanan AS $_ruang){
+        foreach ($ruangan AS $_ruang){
             $ruang = new \yii2fullcalendar\models\Event();
             $ruang->id = $_ruang->id;
 
             if ($_ruang->status == 'Menunggu Validasi') {
-                $ruang->backgroundColor='blue';
+                $ruang->backgroundColor= '#FFBB40';
+                $ruang->borderColor= '#FFA500';
             } else if ($_ruang->status == 'Aktif') {
-                $ruang->backgroundColor='green';
+                $ruang->backgroundColor= '#40A040';
+                $ruang->borderColor= '#008000';
             } else {
-                $ruang->backgroundColor='red';
+                $ruang->backgroundColor= '#FF4040';
+                $ruang->borderColor= '#FF0000';
             }
 
             $ruang->title = $_ruang->ruang;
@@ -89,46 +88,53 @@ class UserController extends Controller
               
             $tasks[] = $ruang;
         }
-    
-        return $this->render('ruangan', ['ruang' => $tasks, ]);
+
+        return $this->render('ruangan', [
+            'ruang' => $tasks,
+            'searchModel' => $searchModel,
+            'dataProvider' => $dataProvider,
+        ]);
     }
 
     public function actionPesan()
     {
-        $model = new Ruangan();
-
+        $model = new PesanRuanganForm();
         if ($model->load(Yii::$app->request->post())) {
-            $model->nim_mahasiswa = Yii::$app->user->identity->nim;
-            $model->status = 'Menunggu Validasi';
-            $model->waktu_pesan = date('Y-m-d H:i');            
-            $model->waktu_validasi = date('Y-m-d H:i');
-            $model->save();
-            return $this->redirect(['pesanan']);
-        } else {
-            return $this->render('pesan', [
-                'model' => $model,
-            ]);
+            if ($user = $model->pesan()) {
+
+                Yii::$app->session->setFlash('success', 'Pemesanan ruan berhasil.');
+
+                return $this->redirect('pesanan');
+            } else {
+                Yii::$app->session->setFlash('error', 'Maaf, ada yang salah dengan inputan anda.');
+            }
         }
+
+        return $this->render('pesan', [
+            'model' => $model,
+        ]);
     }
 
     public function actionPesanan()
     {
-        $pesanan = Ruangan::find()
-        ->where(['nim_mahasiswa' => Yii::$app->user->identity->nim] )
-        ->all();
-    
+        $ruangan = Ruangan::find()
+            ->where(['nim_mahasiswa' => Yii::$app->user->identity->nim] )
+            ->all();
+        
         $tasks=[];  
-        foreach ($pesanan AS $_ruang){
+        foreach ($ruangan AS $_ruang){
             $ruang = new \yii2fullcalendar\models\Event();
-            $ruang->id = $_ruang->nim_mahasiswa;
+            $ruang->id = $_ruang->id;
 
             if ($_ruang->status == 'Menunggu Validasi') {
-                $ruang->backgroundColor='orange';
-                $ruang->borderColor='orange';
+                $ruang->backgroundColor= '#FFBB40';
+                $ruang->borderColor= '#FFA500';
             } else if ($_ruang->status == 'Aktif') {
-                $ruang->backgroundColor='green';
+                $ruang->backgroundColor= '#40A040';
+                $ruang->borderColor= '#008000';
             } else {
-                $ruang->backgroundColor='red';
+                $ruang->backgroundColor= '#FF4040';
+                $ruang->borderColor= '#FF0000';
             }
 
             $ruang->title = $_ruang->ruang;
@@ -140,10 +146,4 @@ class UserController extends Controller
     
         return $this->render('pesanan', ['ruang' => $tasks, ]);
     }
-
-    public function actionBantuan()
-    {
-        return $this->render('bantuan');
-    }
-
 }
