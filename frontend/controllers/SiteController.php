@@ -24,11 +24,11 @@ class SiteController extends Controller
                 'class' => AccessControl::className(),
                 'rules' => [
                     [
-                        'actions' => ['login', 'error', 'index'],
+                        'actions' => ['login', 'error'],
                         'allow' => true,
                     ],
                     [
-                        'actions' => ['signup', 'kalender-ruangan', 'grid-ruangan', 'request-password-reset', 'reset-password'],
+                        'actions' => ['signup', 'index', 'kalender-ruangan', 'grid-ruangan', 'request-password-reset', 'reset-password'],
                         'allow' => true,
                         'roles' => ['?'],
                     ],
@@ -60,10 +60,6 @@ class SiteController extends Controller
 
     public function actionIndex()
     {
-        if (!Yii::$app->user->isGuest) {
-            return $this->redirect('user/profil');
-        }
-
         return $this->render('index');
     }
 

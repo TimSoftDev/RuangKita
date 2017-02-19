@@ -44,7 +44,7 @@ class Prodi extends \yii\db\ActiveRecord
     {
         return [
             'id' => 'ID',
-            'id_fakultas' => 'Id Fakultas',
+            'id_fakultas' => 'ID Fakultas',
             'nama' => 'Nama',
         ];
     }
@@ -52,7 +52,7 @@ class Prodi extends \yii\db\ActiveRecord
     /**
      * @return \yii\db\ActiveQuery
      */
-    public function getIdFakultas()
+    public function getFakultas()
     {
         return $this->hasOne(Fakultas::className(), ['id' => 'id_fakultas']);
     }
@@ -60,7 +60,7 @@ class Prodi extends \yii\db\ActiveRecord
     /**
      * @return \yii\db\ActiveQuery
      */
-    public function getUsers()
+    public function getUser()
     {
         return $this->hasMany(User::className(), ['prodi' => 'nama']);
     }

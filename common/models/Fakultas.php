@@ -50,7 +50,7 @@ class Fakultas extends \yii\db\ActiveRecord
     /**
      * @return \yii\db\ActiveQuery
      */
-    public function getProdis()
+    public function getProdi()
     {
         return $this->hasMany(Prodi::className(), ['id_fakultas' => 'id']);
     }

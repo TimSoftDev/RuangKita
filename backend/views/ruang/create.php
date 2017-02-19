@@ -6,8 +6,8 @@ use yii\helpers\Html;
 /* @var $this yii\web\View */
 /* @var $model common\models\Ruang */
 
-$this->title = 'Create Ruang';
-$this->params['breadcrumbs'][] = ['label' => 'Ruangs', 'url' => ['index']];
+$this->title = 'Tambah Ruang';
+$this->params['breadcrumbs'][] = ['label' => 'Ruang', 'url' => ['index']];
 $this->params['breadcrumbs'][] = $this->title;
 ?>
 <div class="ruang-create">

@@ -117,5 +117,9 @@ class Admin extends ActiveRecord implements IdentityInterface
     {
         return static::findOne(['email' => $email, 'status' => self::STATUS_ACTIVE]);
     }
-
+	
+	public static function findByNama($nama)
+    {
+        return static::findOne(['nama' => $nama, 'status' => self::STATUS_ACTIVE]);
+    }
 }

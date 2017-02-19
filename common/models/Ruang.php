@@ -50,7 +50,7 @@ class Ruang extends \yii\db\ActiveRecord
     /**
      * @return \yii\db\ActiveQuery
      */
-    public function getRuangans()
+    public function getRuangan()
     {
         return $this->hasMany(Ruangan::className(), ['ruang' => 'nama']);
     }

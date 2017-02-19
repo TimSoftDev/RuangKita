@@ -4,7 +4,6 @@ use yii\helpers\Html;
 use yii\helpers\ArrayHelper;
 use yii\widgets\ActiveForm;
 use common\models\Ruang;
-use common\models\SesiWaktu;
 use kartik\datetime\DateTimePicker;
 
 $this->title = 'Pesan Ruang';

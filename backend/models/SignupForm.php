@@ -6,6 +6,7 @@ use backend\models\Admin;
 
 class SignupForm extends Model
 {
+    public $nama;
     public $username;
     public $email;
     public $password;
@@ -14,6 +15,11 @@ class SignupForm extends Model
     public function rules()
     {
         return [
+
+            ['nama', 'trim'],
+            ['nama', 'required'],
+            ['nama', 'string', 'min' => 2, 'max' => 63],
+
             ['username', 'trim'],
             ['username', 'required'],
             ['username', 'unique', 'targetClass' => 'backend\models\Admin', 'message' => 'This username has already been taken.'],
@@ -37,6 +43,7 @@ class SignupForm extends Model
         }
         
         $user = new Admin();
+        $user->nama = ucwords($this->nama);
         $user->username = strtolower($this->username);
         $user->email = strtolower($this->email);
         $user->setPassword($this->password);

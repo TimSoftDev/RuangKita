@@ -68,14 +68,6 @@ class Ruangan extends \yii\db\ActiveRecord
     /**
      * @return \yii\db\ActiveQuery
      */
-    public function getAdmins()
-    {
-        return $this->hasMany(Admin::className(), ['nama' => 'validator']);
-    }
-
-    /**
-     * @return \yii\db\ActiveQuery
-     */
     public function getRuang0()
     {
         return $this->hasOne(Ruang::className(), ['nama' => 'ruang']);

@@ -5,9 +5,12 @@ namespace backend\controllers;
 use Yii;
 use common\models\Ruangan;
 use common\models\RuanganSearch;
+use backend\models\PesanRuanganForm;
 use yii\web\Controller;
 use yii\web\NotFoundHttpException;
 use yii\filters\VerbFilter;
+use yii\filters\AccessControl;
+
 
 /**
  * RuanganController implements the CRUD actions for Ruangan model.
@@ -20,6 +23,15 @@ class RuanganController extends Controller
     public function behaviors()
     {
         return [
+            'access' => [
+                'class' => AccessControl::className(),
+                'rules' => [
+                    [
+                        'allow' => true,
+                        'roles' => ['@'],
+                    ],
+                ],
+            ],
             'verbs' => [
                 'class' => VerbFilter::className(),
                 'actions' => [
@@ -38,7 +50,33 @@ class RuanganController extends Controller
         $searchModel = new RuanganSearch();
         $dataProvider = $searchModel->search(Yii::$app->request->queryParams);
 
+        $ruangan = Ruangan::find()->all();
+        
+        $tasks=[];  
+        foreach ($ruangan AS $_ruang){
+            $ruang = new \yii2fullcalendar\models\Event();
+            $ruang->id = $_ruang->id;
+
+            if ($_ruang->status == 'Menunggu Validasi') {
+                $ruang->backgroundColor= '#FFBB40';
+                $ruang->borderColor= '#FFA500';
+            } else if ($_ruang->status == 'Aktif') {
+                $ruang->backgroundColor= '#40A040';
+                $ruang->borderColor= '#008000';
+            } else {
+                $ruang->backgroundColor= '#FF4040';
+                $ruang->borderColor= '#FF0000';
+            }
+
+            $ruang->title = $_ruang->ruang;
+            $ruang->start = $_ruang->waktu_mulai; 
+            $ruang->end = $_ruang->waktu_selesai;
+              
+            $tasks[] = $ruang;
+        }
+        
         return $this->render('index', [
+            'ruang' => $tasks,
             'searchModel' => $searchModel,
             'dataProvider' => $dataProvider,
         ]);
@@ -63,15 +101,22 @@ class RuanganController extends Controller
      */
     public function actionCreate()
     {
-        $model = new Ruangan();
+        $model = new PesanRuanganForm();
+        
+        if ($model->load(Yii::$app->request->post())) {
+            if ($user = $model->pesan()) {
 
-        if ($model->load(Yii::$app->request->post()) && $model->save()) {
-            return $this->redirect(['view', 'id' => $model->id]);
-        } else {
-            return $this->render('create', [
-                'model' => $model,
-            ]);
+                Yii::$app->session->setFlash('success', 'Pemesanan ruang berhasil.');
+
+                return $this->redirect('index');
+            } else {
+                Yii::$app->session->setFlash('error', 'Maaf, ada yang salah dengan inputan anda.');
+            }
         }
+
+        return $this->render('create', [
+            'model' => $model,
+        ]);
     }
 
     /**

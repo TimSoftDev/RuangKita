@@ -1,8 +1,6 @@
 <?php
 
 use yii\helpers\Html;
-use yii\bootstrap\Modal;
-use yii\helpers\Url;
 
 
 $this->title = 'List Ruangan';

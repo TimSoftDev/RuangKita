@@ -7,7 +7,7 @@ use yii\widgets\Pjax;
 /* @var $searchModel backend\models\ProdiSearch */
 /* @var $dataProvider yii\data\ActiveDataProvider */
 
-$this->title = 'Prodis';
+$this->title = 'Prodi';
 $this->params['breadcrumbs'][] = $this->title;
 ?>
 <div class="prodi-index">
@@ -16,7 +16,7 @@ $this->params['breadcrumbs'][] = $this->title;
     <?php // echo $this->render('_search', ['model' => $searchModel]); ?>
 
     <p>
-        <?= Html::a('Create Prodi', ['create'], ['class' => 'btn btn-success']) ?>
+        <?= Html::a('Tambah Prodi', ['create'], ['class' => 'btn btn-success']) ?>
     </p>
 <?php Pjax::begin(); ?>    <?= GridView::widget([
         'dataProvider' => $dataProvider,
@@ -24,8 +24,11 @@ $this->params['breadcrumbs'][] = $this->title;
         'columns' => [
             ['class' => 'yii\grid\SerialColumn'],
 
-            'id',
-            'id_fakultas',
+            [
+                'label' => 'Nama Fakultas',
+                'attribute' => 'id_fakultas',
+                'value' => 'fakultas.nama',
+            ],
             'nama',
 
             ['class' => 'yii\grid\ActionColumn'],

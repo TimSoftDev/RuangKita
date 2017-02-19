@@ -102,7 +102,7 @@ class UserController extends Controller
         if ($model->load(Yii::$app->request->post())) {
             if ($user = $model->pesan()) {
 
-                Yii::$app->session->setFlash('success', 'Pemesanan ruan berhasil.');
+                Yii::$app->session->setFlash('success', 'Pemesanan ruang berhasil.');
 
                 return $this->redirect('pesanan');
             } else {

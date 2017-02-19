@@ -7,7 +7,7 @@ use yii\widgets\Pjax;
 /* @var $searchModel common\models\RuanganSearch */
 /* @var $dataProvider yii\data\ActiveDataProvider */
 
-$this->title = 'Ruangans';
+$this->title = 'Pemesanan Ruangan';
 $this->params['breadcrumbs'][] = $this->title;
 ?>
 <div class="ruangan-index">
@@ -16,7 +16,7 @@ $this->params['breadcrumbs'][] = $this->title;
     <?php // echo $this->render('_search', ['model' => $searchModel]); ?>
 
     <p>
-        <?= Html::a('Create Ruangan', ['create'], ['class' => 'btn btn-success']) ?>
+        <?= Html::a('Tambah Pemesanan Ruangan', ['create'], ['class' => 'btn btn-success']) ?>
     </p>
 <?php Pjax::begin(); ?>    <?= GridView::widget([
         'dataProvider' => $dataProvider,
@@ -24,14 +24,14 @@ $this->params['breadcrumbs'][] = $this->title;
         'columns' => [
             ['class' => 'yii\grid\SerialColumn'],
 
-            'id',
+            // 'id',
             'nim_mahasiswa',
             'ruang',
             'no_surat',
             'waktu_mulai',
-            // 'waktu_selesai',
-            // 'status',
-            // 'waktu_pesan',
+            'waktu_selesai',
+            'waktu_pesan',
+            'status',
             // 'waktu_validasi',
             // 'validator',
 
@@ -39,3 +39,22 @@ $this->params['breadcrumbs'][] = $this->title;
         ],
     ]); ?>
 <?php Pjax::end(); ?></div>
+
+    <div style="margin-top: 48px;"></div>
+
+    <button class="btn btn-sm" style="background-color: #FFBB40; border-color: #FFA500; color: #fff;">Menunggu Validasi</button>
+    <button class="btn btn-sm" style="background-color: #40A040; border-color: #008000; color: #fff;">Dalam Masa Aktif</button>
+    <button class="btn btn-sm" style="background-color: #FF4040; border-color: #FF0000; color: #fff;">Sudah Kadaluarsa</button>
+
+
+    <div style="margin-top: 32px;"></div>
+
+    <?= \yii2fullcalendar\yii2fullcalendar::widget(array(
+        'options' => [
+            'lang' => 'id',
+        ],
+        'clientOptions' => [
+            'selectable' => true,
+        ],
+        'events'=> $ruang,
+    )); ?>
