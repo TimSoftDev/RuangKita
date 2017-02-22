@@ -19,11 +19,11 @@ class SiteController extends Controller
                 'class' => AccessControl::className(),
                 'rules' => [
                     [
-                        'actions' => ['login', 'error'],
+                        'actions' => ['login', 'error', 'index'],
                         'allow' => true,
                     ],                    
                     [
-                        'actions' => ['signup', 'request-password-reset', 'reset-password', 'index'],
+                        'actions' => ['signup', 'request-password-reset', 'reset-password'],
                         'allow' => true,
                         'roles' => ['?'],
                     ],
@@ -54,6 +54,10 @@ class SiteController extends Controller
 
     public function actionIndex()
     {
+        if (!Yii::$app->user->isGuest) {
+            return $this->redirect(['ruangan/index']);
+        }
+
         return $this->render('index');
     }
 

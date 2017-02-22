@@ -18,18 +18,23 @@ $this->params['breadcrumbs'][] = $this->title;
 
     </div>
 
-    <?php Pjax::begin(); ?>    <?= GridView::widget([
-        'dataProvider' => $dataProvider,
-        'filterModel' => $searchModel,
-        'columns' => [
-            ['class' => 'yii\grid\SerialColumn'],
+    <?php Pjax::begin(); ?>
+    <?php // echo $this->render('_search', ['model' => $searchModel]); ?>
+    <?= \yiister\gentelella\widgets\grid\GridView::widget(
+            [
+                'dataProvider' => $dataProvider,
+                'hover' => true,
+                'columns' => [
+                    ['class' => 'yii\grid\SerialColumn'],
 
-            'ruang',
-            'waktu_mulai',
-            'waktu_selesai',
-            'status',
-        ],
-    ]); ?>
+                    'ruang',
+                    'waktu_mulai',
+                    'waktu_selesai',
+                    'status',
+                ],
+            ]
+        );
+    ?>
     <?php Pjax::end(); ?>
 
     <div style="margin-top: 48px;"></div>

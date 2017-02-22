@@ -57,15 +57,15 @@ class RuanganController extends Controller
             $ruang = new \yii2fullcalendar\models\Event();
             $ruang->id = $_ruang->id;
 
-            if ($_ruang->status == 'Menunggu Validasi') {
-                $ruang->backgroundColor= '#FFBB40';
-                $ruang->borderColor= '#FFA500';
+            if ($_ruang->waktu_selesai < date('Y-m-d H:i') || $_ruang->status == 'Sudah Selesai') {
+                $ruang->backgroundColor= '#FF4040';
+                $ruang->borderColor= '#FF0000';
             } else if ($_ruang->status == 'Aktif') {
                 $ruang->backgroundColor= '#40A040';
                 $ruang->borderColor= '#008000';
-            } else {
-                $ruang->backgroundColor= '#FF4040';
-                $ruang->borderColor= '#FF0000';
+            } else if ($_ruang->status == 'Menunggu Validasi') {
+                $ruang->backgroundColor= '#FFBB40';
+                $ruang->borderColor= '#FFA500';
             }
 
             $ruang->title = $_ruang->ruang;
@@ -129,7 +129,9 @@ class RuanganController extends Controller
     {
         $model = $this->findModel($id);
 
-        if ($model->load(Yii::$app->request->post()) && $model->save()) {
+        if ($model->load(Yii::$app->request->post())) {
+            $model->validator = Yii::$app->user->identity->nama;
+            $model->save();
             return $this->redirect(['view', 'id' => $model->id]);
         } else {
             return $this->render('update', [

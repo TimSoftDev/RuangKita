@@ -16,7 +16,7 @@ class PesanRuanganForm extends Model
     public function rules()
     {
         return [
-            [['ruang', 'no_surat', 'waktu_mulai', 'waktu_selesai'], 'required'],
+            [['ruang', 'no_surat', 'waktu_mulai', 'waktu_selesai'], 'required', 'message'=> 'Bidang wajib diisi.'],
             [['ruang', 'no_surat'], 'string', 'max' => 63],
             [['ruang'], 'exist', 'skipOnError' => true, 'targetClass' => Ruang::className(), 'targetAttribute' => ['ruang' => 'nama']],           
         ];
@@ -28,9 +28,23 @@ class PesanRuanganForm extends Model
             return null;
         }
 
+        $ruangan = Ruangan::find()
+            ->where(['ruang' => $this->ruang])
+            ->andWhere(['between', 'waktu_selesai', $this->waktu_mulai, $this->waktu_selesai])
+            ->andWhere(['status' => 'Aktif'])
+            ->count();
+
         $hari = date('Y-m-d H:i');
 
-        if ($this->waktu_mulai > $hari && $this->waktu_mulai < $this->waktu_selesai ) {
+        if ($this->waktu_mulai < $hari || $this->waktu_mulai > $this->waktu_selesai) {
+
+            Yii::$app->session->setFlash('error', 'Maaf, waktu yang anda masukkan tidak sesuai.');
+
+        } else if ($ruangan > 0) {
+
+            Yii::$app->session->setFlash('error', 'Maaf, ruangan sudah ada yang memesan.');
+        
+        } else {
 
             $user = new Ruangan();
             $user->no_surat = $this->no_surat;

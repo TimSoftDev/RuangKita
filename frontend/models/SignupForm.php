@@ -24,35 +24,36 @@ class SignupForm extends Model
     {
         return [
             ['nim', 'trim'],
-            ['nim', 'required'],            
+            ['nim', 'required', 'message' => ''],            
             ['nim', 'unique', 'targetClass' => '\common\models\User', 'message' => 'NIM sudah digunakan.'],
             ['nim', 'string', 'min' => 8, 'max' => 8],
 
             ['nama_depan', 'trim'],
-            ['nama_depan', 'required'],
+            ['nama_depan', 'required', 'message' => ''],
             ['nama_depan', 'string', 'max' => 64],
 
             ['nama_belakang', 'trim'],
-            ['nama_belakang', 'required'],
+            ['nama_belakang', 'required', 'message' => ''],
             ['nama_belakang', 'string', 'max' => 64],
 
             ['username', 'trim'],
-            ['username', 'required'],
+            ['username', 'required', 'message' => ''],
             ['username', 'unique', 'targetClass' => '\common\models\User', 'message' => 'Username tidak tersedia.'],
             ['username', 'string', 'min' => 2, 'max' => 255],
 
             ['prodi', 'trim'],
-            ['prodi', 'required'],
+            ['prodi', 'required', 'message' => ''],
 
             ['email', 'trim'],
-            ['email', 'required'],
+            ['email', 'required', 'message' => ''],
             ['email', 'email'],
             ['email', 'string', 'max' => 255],
             ['email', 'unique', 'targetClass' => '\common\models\User', 'message' => 'Email tidak tersedia.'],
 
-            ['password', 'required'],
+            ['password', 'required', 'message' => ''],
             ['password', 'string', 'min' => 6],
 
+            ['foto', 'required', 'message' => 'Foto wajib ada.'],
             [['foto'], 'file', 'skipOnEmpty' => false, 'extensions' => 'png, jpg, jpeg']
         ];
     }

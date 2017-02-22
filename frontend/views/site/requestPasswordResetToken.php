@@ -1,31 +1,49 @@
 <?php
 
-/* @var $this yii\web\View */
-/* @var $form yii\bootstrap\ActiveForm */
-/* @var $model \frontend\models\PasswordResetRequestForm */
-
 use yii\helpers\Html;
 use yii\bootstrap\ActiveForm;
-use yii\captcha\Captcha;
 
 $this->title = 'Lupa Password';
 $this->params['breadcrumbs'][] = $this->title;
 ?>
-<div class="site-request-password-reset">
-    <h1><?= Html::encode($this->title) ?></h1>
 
+<div class="modal-dialog">
+    <div class="modal-content">
+        <div class="modal-header text-center">
+            <img src="https://sso.uns.ac.id/module.php/uns/img/logo-uns.png" alt="Logo Universitas Sebelas Maret">
+        </div>
+        <div class="modal-footer">
+            <?php $form = ActiveForm::begin([
 
-    <div class="row">
-        <div class="col-lg-5">
-            <?php $form = ActiveForm::begin(['id' => 'request-password-reset-form']); ?>
+                'id' => 'request-password-reset-form',
+                'options' => [
+                    'class' => 'form col-md-12 center-block'
+                ]
 
-                <?= $form->field($model, 'email')->textInput(['autofocus' => true, 'placeholder' => 'email@domain.com']) ?>
+            ]); ?>
 
-                <div class="form-group">
-                    <?= Html::submitButton('Kirim', ['class' => 'btn btn-primary']) ?>
-                </div>
+                <?= $form->field($model, 'email')
+                    ->label(false)
+                    ->textInput([
+                        'placeholder' => $model->getAttributeLabel('email'),
+                        'autofocus' => true,
+                        'class' => 'form-control input-lg'
+                    ]) ?>
+
+      
+                <?= Html::submitButton('Reset', ['class' => 'btn btn-primary btn-lg btn-block', 'name' => 'reset-button']) ?>
+
+                <span class="pull-left">
+                    Ingat password? 
+                    <?= Html::a('Masuk', ['site/login']) ?>
+                </span>
+                <span class="pull-right">
+                    Belum punya akun? 
+                    <?= Html::a('Daftar', ['site/signup']) ?>
+                </span>
 
             <?php ActiveForm::end(); ?>
+            
         </div>
     </div>
 </div>

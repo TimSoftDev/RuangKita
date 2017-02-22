@@ -24,11 +24,11 @@ class SiteController extends Controller
                 'class' => AccessControl::className(),
                 'rules' => [
                     [
-                        'actions' => ['login', 'error'],
+                        'actions' => ['login', 'error', 'index'],
                         'allow' => true,
                     ],
                     [
-                        'actions' => ['signup', 'index', 'kalender-ruangan', 'grid-ruangan', 'request-password-reset', 'reset-password'],
+                        'actions' => ['signup', 'kalender-ruangan', 'grid-ruangan', 'request-password-reset', 'reset-password'],
                         'allow' => true,
                         'roles' => ['?'],
                     ],
@@ -60,7 +60,11 @@ class SiteController extends Controller
 
     public function actionIndex()
     {
-        return $this->render('index');
+        if (!Yii::$app->user->isGuest) {
+            return $this->redirect(['user/index']);
+        }
+
+        return $this->redirect(['login']);
     }
 
     public function actionLogin()
@@ -111,7 +115,7 @@ class SiteController extends Controller
         $model = new PasswordResetRequestForm();
         if ($model->load(Yii::$app->request->post()) && $model->validate()) {
             if ($model->sendEmail()) {
-                Yii::$app->session->setFlash('success', 'Check your email for further instructions.');
+                Yii::$app->session->setFlash('success', 'Permintaan reset password berhasil. Silakan cek email anda, jika pesan pada inbox belum ada, mohon cek pada spam inbox.');
 
                 return $this->goHome();
             } else {
@@ -152,15 +156,15 @@ class SiteController extends Controller
             $ruang = new \yii2fullcalendar\models\Event();
             $ruang->id = $_ruang->id;
 
-            if ($_ruang->status == 'Menunggu Validasi') {
-                $ruang->backgroundColor= '#FFBB40';
-                $ruang->borderColor= '#FFA500';
+            if ($_ruang->waktu_selesai < date('Y-m-d H:i') || $_ruang->status == 'Sudah Selesai') {
+                $ruang->backgroundColor= '#FF4040';
+                $ruang->borderColor= '#FF0000';
             } else if ($_ruang->status == 'Aktif') {
                 $ruang->backgroundColor= '#40A040';
                 $ruang->borderColor= '#008000';
-            } else {
-                $ruang->backgroundColor= '#FF4040';
-                $ruang->borderColor= '#FF0000';
+            } else if ($_ruang->status == 'Menunggu Validasi') {
+                $ruang->backgroundColor= '#FFBB40';
+                $ruang->borderColor= '#FFA500';
             }
 
             $ruang->title = $_ruang->ruang;

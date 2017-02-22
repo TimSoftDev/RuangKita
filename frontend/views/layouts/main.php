@@ -1,13 +1,24 @@
 <?php
 
 use yii\helpers\Html;
-use kartik\alert\AlertBlock;
+
+if (Yii::$app->controller->action->id === 'error' ||
+    Yii::$app->controller->action->id === 'login' ||
+    Yii::$app->controller->action->id === 'request-password-reset' ||
+    Yii::$app->controller->action->id === 'reset-password' ||
+    Yii::$app->controller->action->id === 'signup'
+
+) { 
+    echo $this->render(
+        'main-clean',
+        ['content' => $content]
+    );
+} else {
 
 $bundle = yiister\gentelella\assets\Asset::register($this);
 
 $_home = Yii::$app->homeUrl;
 $_title = 'Sistem Ruang';
-$_tim = 'Tim SoftDev';
 
 if (!Yii::$app->user->isGuest) {
     $_email = Yii::$app->user->identity->email;
@@ -197,9 +208,8 @@ if ($_foto == '') {
             <?php endif; ?>
             <div class="clearfix"></div>
 
-            <?= AlertBlock::widget([
-                'type' => AlertBlock::TYPE_ALERT,
-                'useSessionFlash' => true
+            <?= \yiister\gentelella\widgets\FlashAlert::widget([
+                'showHeader' => true
             ]); ?>
             
             <?= $content ?>
@@ -232,3 +242,4 @@ if ($_foto == '') {
 </body>
 </html>
 <?php $this->endPage(); ?>
+<?php } ?>

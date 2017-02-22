@@ -20,6 +20,9 @@ $this->params['breadcrumbs'][] = $this->title;
 
     <?php $form = ActiveForm::begin(); ?>
 
+    		<?= $form->field($model, 'validator')->textInput(['value' => Yii::$app->user->identity->nama, 'disabled' => 'disabled']) ?>
+    		<?= $form->field($model, 'status')->textInput(['value' => 'Aktif', 'disabled' => 'disabled']) ?>
+
 		    <?= $form->field($model, 'nim_mahasiswa')->textInput(['maxlength' => true]) ?>
 
 		    <?= $form->field($model, 'no_surat')->textInput(['maxlength' => true]) ?>

@@ -30,7 +30,7 @@ $this->params['breadcrumbs'][] = $this->title;
             'no_surat',
             'waktu_mulai',
             'waktu_selesai',
-            'waktu_pesan',
+            //'waktu_pesan',
             'status',
             // 'waktu_validasi',
             // 'validator',

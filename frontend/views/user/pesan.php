@@ -18,7 +18,23 @@ $this->params['breadcrumbs'][] = $this->title;
 
 	    <?php $form = ActiveForm::begin(); ?>
 
-		    <?= $form->field($model, 'no_surat')->textInput(['maxlength' => true]) ?>
+	    	<?= $form->field($model, 'nama')
+	    		->textInput(['value' => strtoupper(Yii::$app->user->identity->nama_depan . ' ' . Yii::$app->user->identity->nama_belakang),
+	    		'disabled' => 'disabled'
+	    	]) ?>
+
+	    	<?= $form->field($model, 'nim')
+	    		->textInput(['value' => Yii::$app->user->identity->nim, 'disabled' => 'disabled'
+	    	]) ?>
+
+	    	<?= $form->field($model, 'prodi')
+	    		->textInput(['value' => Yii::$app->user->identity->prodi,
+	    		'disabled' => 'disabled'
+	    	]) ?>
+
+		    <?= $form->field($model, 'no_surat')
+		    	->textInput(['maxlength' => true
+		    ]) ?>
 
 		    <?= $form->field($model, 'ruang')
                 ->dropDownList(ArrayHelper::map(Ruang::find()->all(),
@@ -26,25 +42,27 @@ $this->params['breadcrumbs'][] = $this->title;
                 ['prompt' => 'Pilih Ruang']
             ) ?>
 
-            <?= $form->field($model, 'waktu_mulai')->widget(DateTimePicker::classname(), [
+            <?= $form->field($model, 'waktu_mulai')
+            	->widget(DateTimePicker::classname(), [
 			    'options' => ['placeholder' => date('Y-m-d H:i')],
 			    'pluginOptions' => [
 			        'autoclose'=>true,		
 			        'todayHighlight' => true,
 			        'calendarWeeks' => true,
 			        'daysOfWeekDisabled' => [0, 5, 6],
-			        'format' => 'yyyy-mm-dd HH:ii'
+			        'format' => 'yyyy-mm-dd hh:ii'
 			    ]
 			]); ?>
 
-			<?= $form->field($model, 'waktu_selesai')->widget(DateTimePicker::classname(), [
+			<?= $form->field($model, 'waktu_selesai')
+				->widget(DateTimePicker::classname(), [
 			    'options' => ['placeholder' => date('Y-m-d H:i')],
 			    'pluginOptions' => [
 			        'autoclose'=>true,		
 			        'todayHighlight' => true,
 			        'calendarWeeks' => true,
 			        'daysOfWeekDisabled' => [0, 5, 6],
-			        'format' => 'yyyy-mm-dd HH:ii'
+			        'format' => 'yyyy-mm-dd hh:ii'
 			    ]
 			]); ?>
 
