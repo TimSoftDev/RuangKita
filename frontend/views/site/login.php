@@ -2,6 +2,7 @@
 
 use yii\helpers\Html;
 use yii\bootstrap\ActiveForm;
+use kartik\widgets\SwitchInput;
 
 $this->title = 'Login';
 $this->params['breadcrumbs'][] = $this->title;
@@ -32,22 +33,35 @@ $this->params['breadcrumbs'][] = $this->title;
                     ->textInput([
                         'placeholder' => $model->getAttributeLabel('email'),
                         'autofocus' => true,
-                        'class' => 'form-control input-lg'
+                        'class' => 'form-control input-md'
                     ]) ?>
 
                 <?= $form->field($model, 'password')
                     ->label(false)
                     ->passwordInput([
                         'placeholder' => $model->getAttributeLabel('password'),
-                        'class' => 'form-control input-lg'
+                        'class' => 'form-control input-md'
                     ]) ?>
 
+
+                <div class="row" style="margin-top: 32px">
+                    <div class="col-md-3 col-sm-3">
+                        <?= $form->field($model, 'rememberMe')
+                            ->label(false)
+                            ->widget(SwitchInput::classname(), [
+                                'pluginOptions' => [
+                                    'onText' => '<i class="glyphicon glyphicon-ok"></i>',
+                                    'offText' => '<i class="glyphicon glyphicon-remove"></i>',
+                                ],
+                            ]) ?>
+                    </div>
+
+                    <div class="col-md-9 col-sm-9">
+                        <?= Html::submitButton('Masuk', ['class' => 'btn btn-primary btn-md btn-block', 'name' => 'login-button']) ?>
+                    </div>
+
+                </div>
                 
-                <?= $form->field($model, 'rememberMe')
-                    ->label('Ingat saya')
-                    ->checkbox() ?>
-      
-                <?= Html::submitButton('Masuk', ['class' => 'btn btn-primary btn-lg btn-block', 'name' => 'login-button']) ?>
 
                 <span class="pull-left">
                     Lupa password? 
