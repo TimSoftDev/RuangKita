@@ -1,9 +1,7 @@
 <?php
 
 use yii\helpers\Html;
-use yii\helpers\ArrayHelper;
 use yii\widgets\ActiveForm;
-use common\models\Fakultas;
 
 /* @var $this yii\web\View */
 /* @var $model common\models\Prodi */
@@ -14,11 +12,7 @@ use common\models\Fakultas;
 
     <?php $form = ActiveForm::begin(); ?>
 
-    <?= $form->field($model, 'id_fakultas')
-                ->dropDownList(ArrayHelper::map(Fakultas::find()->all(),
-                'id', 'nama'),
-                ['prompt' => 'Pilih Fakultas']
-            ) ?>
+    <?= $form->field($model, 'id_fakultas')->textInput() ?>
 
     <?= $form->field($model, 'nama')->textInput(['maxlength' => true]) ?>
 

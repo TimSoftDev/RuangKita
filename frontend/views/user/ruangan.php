@@ -1,29 +1,53 @@
 <?php
 
 use yii\helpers\Html;
-use yii\grid\GridView;
+use yii\helpers\ArrayHelper;
 use yii\widgets\Pjax;
+use yii\widgets\ActiveForm;
+use yii\bootstrap\Modal;
+use kartik\datetime\DateTimePicker;
+use yiister\gentelella\widgets\Panel;
+use common\models\Ruang;
 
 
-$this->title = 'List Ruangan';
+$this->title = 'Monitor Ruangan';
 $this->params['breadcrumbs'][] = $this->title;
 ?>
-<div class="ruangan-index">    
+<div class="ruangan-index">
 
-    <div class="">
+    <?php $form = ActiveForm::begin([
+        'method' => 'get',
+    ]); ?>
 
-    <p>
-        <?= Html::a('Pesan Sekarang', ['pesan'], ['class' => 'btn btn-success']) ?>
-    </p>
+        <?= $form->field($searchModel, 'ruang')
+            ->label(false)
+            ->dropDownList(ArrayHelper::map(Ruang::find()->all(),
+            'nama', 'nama'),
+            ['prompt' => '=== CEK RUANGAN ===']
+        ) ?>
 
-    </div>
+        <div class="form-group">
+            <?= Html::submitButton('Tampilkan Ruang', ['class' => 'btn btn-primary btn-sm']) ?>
+            <?= Html::a('Pesan Sekarang', ['pesan'], ['class' => 'btn btn-default btn-sm']) ?>
+        </div>
+    <?php ActiveForm::end(); ?>
 
+    <div style="margin-bottom: 40px"></div>
+
+    <?php
+    Panel::begin(
+        [
+            'header' => 'Menampilkan Data Pemesanan <a href="#" data-toggle="modal" data-target="#kalender"><small>Tampilan Kalender<small></a>',
+            'icon' => 'list-alt',
+            'collapsable' => true,
+        ]
+    )
+    ?>
+    
     <?php Pjax::begin(); ?>
-    <?php // echo $this->render('_search', ['model' => $searchModel]); ?>
-    <?= \yiister\gentelella\widgets\grid\GridView::widget(
+        <?= \yiister\gentelella\widgets\grid\GridView::widget(
             [
                 'dataProvider' => $dataProvider,
-                'hover' => true,
                 'columns' => [
                     ['class' => 'yii\grid\SerialColumn'],
 
@@ -32,28 +56,39 @@ $this->params['breadcrumbs'][] = $this->title;
                     'waktu_selesai',
                     'status',
                 ],
+                'hover' => true,
+                'condensed' => true,
             ]
         );
-    ?>
+        ?>
     <?php Pjax::end(); ?>
+    <?php Panel::end() ?>
 
-    <div style="margin-top: 48px;"></div>
+</div>
 
-    <button class="btn btn-sm" style="background-color: #FFBB40; border-color: #FFA500; color: #fff;">Menunggu Validasi</button>
-    <button class="btn btn-sm" style="background-color: #40A040; border-color: #008000; color: #fff;">Dalam Masa Aktif</button>
-    <button class="btn btn-sm" style="background-color: #FF4040; border-color: #FF0000; color: #fff;">Sudah Kadaluarsa</button>
+<?php
+    Modal::begin([
+        'header' => '<h3>Menampilkan Data Pemesanan</h3>',
+        'id' => 'kalender',
+        'size' => 'modal-lg'
+    ]) ?>
 
+    <button class="btn btn-xs" style="background-color: #FFBB40; border-color: #FFA500; color: #fff;cursor: inherit;">Menunggu Validasi</button>
+    <button class="btn btn-xs" style="background-color: #40A040; border-color: #008000; color: #fff;cursor: inherit;">Dalam Masa Aktif</button>
+    <button class="btn btn-xs" style="background-color: #FF4040; border-color: #FF0000; color: #fff;cursor: inherit;">Sudah Kadaluarsa</button>
 
     <div style="margin-top: 32px;"></div>
 
     <?= \yii2fullcalendar\yii2fullcalendar::widget(array(
         'options' => [
-            'lang' => 'id',
+            'lang' => 'id'
         ],
-        'clientOptions' => [
-            'selectable' => true,
-        ],
-        'events'=> $ruang,
+        'events' => $ruang,
+        'header' => [               
+            'center'=>'title',
+            'left'=>'prev next today',        
+            'right'=>'agendaDay agendaWeek listMonth'
+        ]
     )); ?>
-   
-</div>
+
+    <?php Modal::end() ?>

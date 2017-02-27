@@ -4,13 +4,10 @@ namespace backend\controllers;
 
 use Yii;
 use common\models\Ruang;
-use backend\models\RuangSearch;
+use common\models\RuangSearch;
 use yii\web\Controller;
 use yii\web\NotFoundHttpException;
 use yii\filters\VerbFilter;
-use yii\filters\AccessControl;
-
-
 
 /**
  * RuangController implements the CRUD actions for Ruang model.
@@ -23,15 +20,6 @@ class RuangController extends Controller
     public function behaviors()
     {
         return [
-            'access' => [
-                'class' => AccessControl::className(),
-                'rules' => [
-                    [
-                        'allow' => true,
-                        'roles' => ['@'],
-                    ],
-                ],
-            ],
             'verbs' => [
                 'class' => VerbFilter::className(),
                 'actions' => [

@@ -7,14 +7,8 @@ use yii\base\Model;
 use yii\data\ActiveDataProvider;
 use common\models\Ruangan;
 
-/**
- * RuanganSearch represents the model behind the search form about `common\models\Ruangan`.
- */
 class RuanganSearch extends Ruangan
 {
-    /**
-     * @inheritdoc
-     */
     public function rules()
     {
         return [
@@ -23,9 +17,6 @@ class RuanganSearch extends Ruangan
         ];
     }
 
-    /**
-     * @inheritdoc
-     */
     public function scenarios()
     {
         // bypass scenarios() implementation in the parent class
@@ -59,18 +50,15 @@ class RuanganSearch extends Ruangan
 
         // grid filtering conditions
         $query->andFilterWhere([
-            'id' => $this->id,
             'waktu_mulai' => $this->waktu_mulai,
             'waktu_selesai' => $this->waktu_selesai,
             'waktu_pesan' => $this->waktu_pesan,
-            'waktu_validasi' => $this->waktu_validasi,
         ]);
 
         $query->andFilterWhere(['like', 'nim_mahasiswa', $this->nim_mahasiswa])
             ->andFilterWhere(['like', 'ruang', $this->ruang])
             ->andFilterWhere(['like', 'no_surat', $this->no_surat])
-            ->andFilterWhere(['like', 'status', $this->status])
-            ->andFilterWhere(['like', 'validator', $this->validator]);
+            ->andFilterWhere(['like', 'status', $this->status]);
 
         return $dataProvider;
     }

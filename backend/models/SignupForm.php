@@ -2,7 +2,6 @@
 namespace backend\models;
 
 use yii\base\Model;
-use backend\models\Admin;
 
 class SignupForm extends Model
 {
@@ -17,21 +16,21 @@ class SignupForm extends Model
         return [
 
             ['nama', 'trim'],
-            ['nama', 'required'],
+            ['nama', 'required', 'message' => ''],
             ['nama', 'string', 'min' => 2, 'max' => 63],
 
             ['username', 'trim'],
-            ['username', 'required'],
+            ['username', 'required', 'message' => ''],
             ['username', 'unique', 'targetClass' => 'backend\models\Admin', 'message' => 'This username has already been taken.'],
             ['username', 'string', 'min' => 2, 'max' => 255],
 
             ['email', 'trim'],
-            ['email', 'required'],
+            ['email', 'required', 'message' => ''],
             ['email', 'email'],
             ['email', 'string', 'max' => 255],
             ['email', 'unique', 'targetClass' => 'backend\models\Admin', 'message' => 'This email address has already been taken.'],
 
-            ['password', 'required'],
+            ['password', 'required', 'message' => ''],
             ['password', 'string', 'min' => 6],
         ];
     }

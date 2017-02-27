@@ -1,39 +1,79 @@
 <?php
 
-/* @var $this yii\web\View */
-/* @var $form yii\bootstrap\ActiveForm */
-/* @var $model \common\models\LoginForm */
-
 use yii\helpers\Html;
 use yii\bootstrap\ActiveForm;
+use kartik\widgets\SwitchInput;
 
 $this->title = 'Login';
 $this->params['breadcrumbs'][] = $this->title;
 ?>
-<div class="site-login">
-    <h1><?= Html::encode($this->title) ?></h1>
 
-    <p>Please fill out the following fields to login:</p>
+<div class="modal-dialog">
+    <div class="modal-content">
+        <div class="modal-header text-center">
+            <img src="https://sso.uns.ac.id/module.php/uns/img/logo-uns.png" alt="Logo Universitas Sebelas Maret">
+        </div>
+        <div class="modal-footer">
+        
+            <?= \yiister\gentelella\widgets\FlashAlert::widget([
+                'showHeader' => true
+            ]); ?>
 
-    <div class="row">
-        <div class="col-lg-5">
-            <?php $form = ActiveForm::begin(['id' => 'login-form']); ?>
+            <?php $form = ActiveForm::begin([
 
-                <?= $form->field($model, 'email')->textInput(['autofocus' => true]) ?>
+                'id' => 'login-form',
+                'options' => [
+                    'class' => 'form col-md-12 center-block'
+                ]
 
-                <?= $form->field($model, 'password')->passwordInput() ?>
+            ]); ?>
 
-                <?= $form->field($model, 'rememberMe')->checkbox() ?>
+                <?= $form->field($model, 'email')
+                    ->label(false)
+                    ->textInput([
+                        'placeholder' => $model->getAttributeLabel('email'),
+                        'autofocus' => true,
+                        'class' => 'form-control input-md'
+                    ]) ?>
 
-                <div style="color:#999;margin:1em 0">
-                    If you forgot your password you can <?= Html::a('reset it', ['site/request-password-reset']) ?>.
+                <?= $form->field($model, 'password')
+                    ->label(false)
+                    ->passwordInput([
+                        'placeholder' => $model->getAttributeLabel('password'),
+                        'class' => 'form-control input-md'
+                    ]) ?>
+
+
+                <div class="row" style="margin-top: 32px">
+                    <div class="col-md-3 col-sm-3">
+                        <?= $form->field($model, 'rememberMe')
+                            ->label(false)
+                            ->widget(SwitchInput::classname(), [
+                                'pluginOptions' => [
+                                    'onText' => '<i class="glyphicon glyphicon-ok"></i>',
+                                    'offText' => '<i class="glyphicon glyphicon-remove"></i>',
+                                ],
+                            ]) ?>
+                    </div>
+
+                    <div class="col-md-9 col-sm-9">
+                        <?= Html::submitButton('Masuk', ['class' => 'btn btn-primary btn-md btn-block', 'name' => 'login-button']) ?>
+                    </div>
+
                 </div>
+                
 
-                <div class="form-group">
-                    <?= Html::submitButton('Login', ['class' => 'btn btn-primary', 'name' => 'login-button']) ?>
-                </div>
+                <span class="pull-left">
+                    Lupa password? 
+                    <?= Html::a('Reset', ['site/request-password-reset']) ?>
+                </span>
+                <span class="pull-right">
+                    Belum punya akun? 
+                    <?= Html::a('Daftar', ['site/signup']) ?>
+                </span>
 
             <?php ActiveForm::end(); ?>
+            
         </div>
     </div>
 </div>

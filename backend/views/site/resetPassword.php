@@ -1,31 +1,39 @@
 <?php
 
-/* @var $this yii\web\View */
-/* @var $form yii\bootstrap\ActiveForm */
-/* @var $model \frontend\models\ResetPasswordForm */
-
 use yii\helpers\Html;
 use yii\bootstrap\ActiveForm;
 
-$this->title = 'Reset password';
+$this->title = 'Reset Password';
 $this->params['breadcrumbs'][] = $this->title;
 ?>
-<div class="site-reset-password">
-    <h1><?= Html::encode($this->title) ?></h1>
 
-    <p>Please choose your new password:</p>
+<div class="modal-dialog">
+    <div class="modal-content">
+        <div class="modal-header text-center">
+            <img src="https://sso.uns.ac.id/module.php/uns/img/logo-uns.png" alt="Logo Universitas Sebelas Maret">
+        </div>
+        <div class="modal-footer">
+            <?php $form = ActiveForm::begin([
 
-    <div class="row">
-        <div class="col-lg-5">
-            <?php $form = ActiveForm::begin(['id' => 'reset-password-form']); ?>
+                'id' => 'request-password-reset-form',
+                'options' => [
+                    'class' => 'form col-md-12 center-block'
+                ]
 
-                <?= $form->field($model, 'password')->passwordInput(['autofocus' => true]) ?>
+            ]); ?>
 
-                <div class="form-group">
-                    <?= Html::submitButton('Save', ['class' => 'btn btn-primary']) ?>
-                </div>
+                <?= $form->field($model, 'password')
+                    ->label(false)
+                    ->passwordInput([
+                        'placeholder' => $model->getAttributeLabel('password'),
+                        'class' => 'form-control input-lg'
+                    ]) ?>
+
+      
+                <?= Html::submitButton('Simpan', ['class' => 'btn btn-primary btn-lg btn-block', 'name' => 'reset-button']) ?>
 
             <?php ActiveForm::end(); ?>
+            
         </div>
     </div>
 </div>

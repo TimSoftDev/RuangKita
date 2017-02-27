@@ -4,13 +4,11 @@ namespace backend\controllers;
 
 use Yii;
 use common\models\Prodi;
-use backend\models\ProdiSearch;
+use common\models\ProdiSearch;
 use yii\web\Controller;
 use yii\web\NotFoundHttpException;
 use yii\filters\VerbFilter;
-use yii\filters\AccessControl;
 
-            
 /**
  * ProdiController implements the CRUD actions for Prodi model.
  */
@@ -22,15 +20,6 @@ class ProdiController extends Controller
     public function behaviors()
     {
         return [
-            'access' => [
-                'class' => AccessControl::className(),
-                'rules' => [
-                    [
-                        'allow' => true,
-                        'roles' => ['@'],
-                    ],
-                ],
-            ],
             'verbs' => [
                 'class' => VerbFilter::className(),
                 'actions' => [

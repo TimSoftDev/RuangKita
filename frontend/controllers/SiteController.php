@@ -28,7 +28,7 @@ class SiteController extends Controller
                         'allow' => true,
                     ],
                     [
-                        'actions' => ['signup', 'kalender-ruangan', 'grid-ruangan', 'request-password-reset', 'reset-password'],
+                        'actions' => ['signup', 'request-password-reset', 'reset-password'],
                         'allow' => true,
                         'roles' => ['?'],
                     ],
@@ -144,48 +144,6 @@ class SiteController extends Controller
 
         return $this->render('resetPassword', [
             'model' => $model,
-        ]);
-    }
-
-    public function actionKalenderRuangan()
-    {
-        $ruangan = Ruangan::find()->all();
-        
-        $tasks=[];  
-        foreach ($ruangan AS $_ruang){
-            $ruang = new \yii2fullcalendar\models\Event();
-            $ruang->id = $_ruang->id;
-
-            if ($_ruang->waktu_selesai < date('Y-m-d H:i') || $_ruang->status == 'Sudah Selesai') {
-                $ruang->backgroundColor= '#FF4040';
-                $ruang->borderColor= '#FF0000';
-            } else if ($_ruang->status == 'Aktif') {
-                $ruang->backgroundColor= '#40A040';
-                $ruang->borderColor= '#008000';
-            } else if ($_ruang->status == 'Menunggu Validasi') {
-                $ruang->backgroundColor= '#FFBB40';
-                $ruang->borderColor= '#FFA500';
-            }
-
-            $ruang->title = $_ruang->ruang;
-            $ruang->start = $_ruang->waktu_mulai; 
-            $ruang->end = $_ruang->waktu_selesai;
-              
-            $tasks[] = $ruang;
-        }
-        
-        return $this->render('kalender-ruangan', ['ruang' => $tasks, ]);
-        
-    }
-
-    public function actionGridRuangan()
-    {
-        $searchModel = new RuanganSearch();
-        $dataProvider = $searchModel->search(Yii::$app->request->queryParams);
-
-        return $this->render('grid-ruangan', [
-            'searchModel' => $searchModel,
-            'dataProvider' => $dataProvider,
         ]);
     }
 }

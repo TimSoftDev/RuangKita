@@ -10,90 +10,84 @@ $this->title = 'Daftar';
 $this->params['breadcrumbs'][] = $this->title;
 ?>
 
-<div class="modal-dialog">
-    <div class="modal-content">
-        <div class="modal-header text-center">
-            <img src="https://sso.uns.ac.id/module.php/uns/img/logo-uns.png" alt="Logo Universitas Sebelas Maret">
+<div class="main">
+    <div class="login" style="max-width: 480px;">
+        <div class="logo">
+            <?= Html::img('@web/img/logo.png', ['alt' => 'Logo Universitas Sebelas Maret']); ?>
         </div>
-        <div class="modal-footer">
-        
-            <?= \yiister\gentelella\widgets\FlashAlert::widget([
-                'showHeader' => true
-            ]); ?>
+        <?php $form = ActiveForm::begin([
+            'id' => 'signup-form',
+            'options' => [
+                'enctype' => 'multipart/form-data'
+            ]
+        ]); ?>
 
-            <div class="text-center text-primary" style="margin-bottom: 32px">
-                <p>Mohon diisi sesuai dengan data yang sebenar-benarnya. <br />
-                    Data yang telah dimasukkan tidak dapat diubah kembali, <br/>
+            <div class="text-center text-primary">
+                <p>Mohon diisi sesuai dengan data yang sebenar-benarnya.
+                    Data yang telah dimasukkan tidak dapat diubah kembali, 
                     disarankan untuk menggunakan foto persegi.
                 </p>
             </div>
 
-            <?php $form = ActiveForm::begin([
+            <div class="row" style="margin-top: 0">
+                <div class="col-md-6 col-sm-6 col-xs-12">
+                    <?= $form->field($model, 'nama_depan')
+                        ->label(false)
+                        ->textInput([
+                            'placeholder' => $model->getAttributeLabel('nama_depan')
+                        ]) ?>
+                </div>
 
-                'id' => 'signup-form',
-                'options' => [
-                    'class' => 'form col-md-12 center-block',
-                    'enctype' => 'multipart/form-data'
+                <div class="col-md-6 col-sm-6 col-xs-12">
+                    <?= $form->field($model, 'nama_belakang')
+                        ->label(false)
+                        ->textInput([
+                            'placeholder' => $model->getAttributeLabel('nama_belakang'),
+                            'class' => 'form-control margin-top-xs'
+                        ]) ?>
+                </div>
+            </div>
+
+            <?= $form->field($model, 'nim')
+                ->label(false)
+                ->textInput([
+                    'placeholder' => $model->getAttributeLabel('nim'),
+                    'autofocus' => true,
+                    'style' => 'margin-top: 5px;'
+                ]) ?>
+
+            <?= $form->field($model, 'prodi')
+                ->label(false)
+                ->dropDownList(ArrayHelper::map(Prodi::find()->all(),
+                'nama', 'nama'),
+                [
+                    'prompt' => 'Pilih Prodi'
                 ]
+            ) ?>
 
-            ]); ?>
+            <?= $form->field($model, 'username')
+                ->label(false)
+                ->textInput([
+                    'placeholder' => $model->getAttributeLabel('username')
+                ]) ?>
 
-                <?= $form->field($model, 'nim')
-                    ->label(false)
-                    ->textInput([
-                        'placeholder' => $model->getAttributeLabel('nim'),
-                        'autofocus' => true,
-                        'class' => 'form-control input-lg'
-                    ]) ?>
+            <?= $form->field($model, 'email')
+                ->label(false)
+                ->textInput([
+                    'placeholder' => $model->getAttributeLabel('email'),
+                    'autofocus' => true
+                ]) ?>
 
-                <?= $form->field($model, 'nama_depan')
-                    ->label(false)
-                    ->textInput([
-                        'placeholder' => $model->getAttributeLabel('nama_depan'),
-                        'class' => 'form-control input-lg'
-                    ]) ?>
+            <?= $form->field($model, 'password')
+                ->label(false)
+                ->passwordInput([
+                    'placeholder' => $model->getAttributeLabel('password')
+                ]) ?>
 
-                <?= $form->field($model, 'nama_belakang')
-                    ->label(false)
-                    ->textInput([
-                        'placeholder' => $model->getAttributeLabel('nama_belakang'),
-                        'class' => 'form-control input-lg'
-                    ]) ?>
-
-                <?= $form->field($model, 'prodi')
-                    ->label(false)
-                    ->dropDownList(ArrayHelper::map(Prodi::find()->all(),
-                    'nama', 'nama'),
-                    [
-                        'prompt' => 'Pilih Prodi',
-                        'class' => 'form-control input-lg'
-                    ]
-                ) ?>
-
-                <?= $form->field($model, 'username')
-                    ->label(false)
-                    ->textInput([
-                        'placeholder' => $model->getAttributeLabel('username'),
-                        'class' => 'form-control input-lg'
-                    ]) ?>
-
-                <?= $form->field($model, 'email')
-                    ->label(false)
-                    ->textInput([
-                        'placeholder' => $model->getAttributeLabel('email'),
-                        'autofocus' => true,
-                        'class' => 'form-control input-lg'
-                    ]) ?>
-
-                <?= $form->field($model, 'password')
-                    ->label(false)
-                    ->passwordInput([
-                        'placeholder' => $model->getAttributeLabel('password'),
-                        'class' => 'form-control input-lg'
-                    ]) ?>
-
-
-                <?= $form->field($model, 'foto')
+                
+            <div class="row">            
+                <div class="col-md-12 col-sm-12 col-xs-12">
+                    <?= $form->field($model, 'foto')
                     ->label(false)
                     ->widget(FileInput::classname(), [
                         'language' => 'id',
@@ -101,26 +95,22 @@ $this->params['breadcrumbs'][] = $this->title;
                             'showCaption' => false,
                             'showRemove' => false,
                             'showUpload' => false,
-                            'browseClass' => 'btn btn-warning btn-block',
+                            'browseClass' => 'btn btn-warning btn-sm btn-block',
                             'browseIcon' => '<i class="glyphicon glyphicon-camera"></i> ',
                             'browseLabel' =>  'Foto Profil'
                         ],
                 ]) ?>
+                </div>
+                <div class="col-md-12 col-sm-12 col-xs-12">
+                    <?= Html::submitButton('Daftar', ['class' => 'btn btn-primary btn-sm btn-block', 'name' => 'signup-button']) ?>
+                </div>
+            </div>
 
-      
-                <?= Html::submitButton('Daftar', ['class' => 'btn btn-primary btn-lg btn-block', 'name' => 'signup-button']) ?>
+        <?php ActiveForm::end(); ?>
+    </div>
 
-                <span class="pull-left">
-                    Sudah punya akun? 
-                    <?= Html::a('Masuk', ['site/login']) ?>
-                </span>
-                <span class="pull-right">
-                    Lupa password? 
-                    <?= Html::a('Lupa password', ['site/request-password-reset']) ?>
-                </span>
-
-            <?php ActiveForm::end(); ?>
-            
-        </div>
+    <div class="login-help" style="max-width: 480px">
+        <span class="pull-left">Punya akun? <?= Html::a('Masuk', ['site/login']) ?>.</span>
+        <span class="pull-right">Lupa password? <?= Html::a('Reset', ['site/request-password-reset']) ?>.</span>
     </div>
 </div>

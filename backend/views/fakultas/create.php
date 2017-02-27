@@ -1,21 +1,37 @@
 <?php
 
 use yii\helpers\Html;
+use yii\helpers\ArrayHelper;
+use yii\widgets\Pjax;
+use yii\widgets\ActiveForm;
+use yiister\gentelella\widgets\Panel;
 
-
-/* @var $this yii\web\View */
-/* @var $model common\models\Fakultas */
 
 $this->title = 'Tambah Fakultas';
-$this->params['breadcrumbs'][] = ['label' => 'Fakultas', 'url' => ['index']];
-$this->params['breadcrumbs'][] = $this->title;
+
 ?>
 <div class="fakultas-create">
+    <?php
+    Panel::begin(
+        [
+            'header' => 'Tambah Data Fakultas',
+            'icon' => 'pencil',
+            'collapsable' => true,
+        ]
+    )
+    ?>
+    
+	    <?php $form = ActiveForm::begin(); ?>
 
-    <h1><?= Html::encode($this->title) ?></h1>
+	    <?= $form->field($model, 'nama')->textInput(['maxlength' => true]) ?>
 
-    <?= $this->render('_form', [
-        'model' => $model,
-    ]) ?>
+	    <?= $form->field($model, 'alamat')->textArea(['maxlength' => true]) ?>
+
+	    <div class="form-group">
+	        <?= Html::submitButton('Tambah', ['class' => 'btn btn-primary']) ?>
+	    </div>
+
+	    <?php ActiveForm::end(); ?>
+    <?php Panel::end() ?>
 
 </div>

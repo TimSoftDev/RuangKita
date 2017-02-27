@@ -1,60 +1,129 @@
 <?php
 
 use yii\helpers\Html;
-use yii\grid\GridView;
 use yii\widgets\Pjax;
-/* @var $this yii\web\View */
-/* @var $searchModel common\models\RuanganSearch */
-/* @var $dataProvider yii\data\ActiveDataProvider */
+use yii\widgets\ActiveForm;
+use yiister\gentelella\widgets\Panel;
+use kartik\datetime\DateTimePicker;
 
-$this->title = 'Pemesanan Ruangan';
+$this->title = 'Data Pemesanan Ruangan';
 $this->params['breadcrumbs'][] = $this->title;
 ?>
 <div class="ruangan-index">
 
-    <h1><?= Html::encode($this->title) ?></h1>
-    <?php // echo $this->render('_search', ['model' => $searchModel]); ?>
+    <div class="row">
+        <div class="col-md-12 col-sm-12 col-xs-12">
+            <?php
+            Panel::begin(
+                [
+                    'header' => ' Cari Data',
+                    'icon' => 'search',
+                    'removable' => true,
+                    'collapsable' => true,
+                ]
+            )
+            ?>
 
-    <p>
-        <?= Html::a('Tambah Pemesanan Ruangan', ['create'], ['class' => 'btn btn-success']) ?>
-    </p>
-<?php Pjax::begin(); ?>    <?= GridView::widget([
-        'dataProvider' => $dataProvider,
-        'filterModel' => $searchModel,
-        'columns' => [
-            ['class' => 'yii\grid\SerialColumn'],
+            <div class="col-sm-8 col-sm-offset-2 col-xs-12">
 
-            // 'id',
-            'nim_mahasiswa',
-            'ruang',
-            'no_surat',
-            'waktu_mulai',
-            'waktu_selesai',
-            //'waktu_pesan',
-            'status',
-            // 'waktu_validasi',
-            // 'validator',
+            <?php $form = ActiveForm::begin([
+                'method' => 'get',
+            ]); ?>
 
-            ['class' => 'yii\grid\ActionColumn'],
-        ],
-    ]); ?>
-<?php Pjax::end(); ?></div>
+            <div class="row">
+                <div class="col-md-6">
 
-    <div style="margin-top: 48px;"></div>
+                    <?= $form->field($searchModel, 'nim_mahasiswa') ?>
 
-    <button class="btn btn-sm" style="background-color: #FFBB40; border-color: #FFA500; color: #fff;">Menunggu Validasi</button>
-    <button class="btn btn-sm" style="background-color: #40A040; border-color: #008000; color: #fff;">Dalam Masa Aktif</button>
-    <button class="btn btn-sm" style="background-color: #FF4040; border-color: #FF0000; color: #fff;">Sudah Kadaluarsa</button>
+                    <?= $form->field($searchModel, 'ruang') ?>
 
+                    <?= $form->field($searchModel, 'no_surat') ?>
 
-    <div style="margin-top: 32px;"></div>
+                </div>
 
-    <?= \yii2fullcalendar\yii2fullcalendar::widget(array(
-        'options' => [
-            'lang' => 'id',
-        ],
-        'clientOptions' => [
-            'selectable' => true,
-        ],
-        'events'=> $ruang,
-    )); ?>
+                <div class="col-md-6">
+
+                    <?= $form->field($searchModel, 'waktu_mulai')
+                        ->widget(DateTimePicker::classname(), [
+                        'pluginOptions' => [
+                            'autoclose'=>true,      
+                            'todayHighlight' => true,
+                            'calendarWeeks' => true,
+                            'format' => 'yyyy-mm-dd hh:ii'
+                        ]
+                    ]); ?>
+
+                    <?= $form->field($searchModel, 'waktu_selesai')
+                        ->widget(DateTimePicker::classname(), [
+                        'pluginOptions' => [
+                            'autoclose'=>true,      
+                            'todayHighlight' => true,
+                            'calendarWeeks' => true,
+                            'format' => 'yyyy-mm-dd hh:ii'
+                        ]
+                    ]); ?>
+
+                        <?= $form->field($searchModel, 'waktu_pesan')
+                        ->widget(DateTimePicker::classname(), [
+                        'pluginOptions' => [
+                            'autoclose'=>true,      
+                            'todayHighlight' => true,
+                            'calendarWeeks' => true,
+                            'format' => 'yyyy-mm-dd hh:ii'
+                        ]
+                    ]); ?>
+
+                </div>
+
+            </div>
+            
+                <div class="ln_solid"></div>
+                <div class="form-group">
+                    <?= Html::submitButton('<i class="fa fa-search"></i> Cari Data', ['class' => 'btn btn-primary']) ?>
+                </div>
+            <?php ActiveForm::end(); ?>
+
+            </div>
+
+            <?php Panel::end() ?>
+        </div>
+
+        <div class="col-md-12 col-sm-12 col-xs-12">
+            <?php
+            Panel::begin(
+                [
+                    'header' => ' Menampilkan Data Pemesanan',
+                    'icon' => 'list',
+                    'removable' => true,
+                    'collapsable' => true,
+                ]
+            )
+            ?>
+            
+            <?php Pjax::begin(); ?>
+                <?= \yiister\gentelella\widgets\grid\GridView::widget(
+                    [
+                        'dataProvider' => $dataProvider,
+                        'columns' => [
+                            ['class' => 'yii\grid\SerialColumn'],
+
+                            'nim_mahasiswa',
+                            'ruang',
+                            'no_surat',
+                            'waktu_mulai',
+                            'waktu_selesai',
+                            'status',
+
+                            ['class' => 'yii\grid\ActionColumn'],
+                        ],
+                        'hover' => true,
+                        'condensed' => true,
+                    ]
+                );
+                ?>
+            <?php Pjax::end(); ?>
+
+            <?php Panel::end() ?>
+        </div>
+    </div>
+</div>

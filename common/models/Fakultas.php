@@ -32,6 +32,7 @@ class Fakultas extends \yii\db\ActiveRecord
             [['nama', 'alamat'], 'required'],
             [['nama'], 'string', 'max' => 63],
             [['alamat'], 'string', 'max' => 255],
+            [['nama'], 'unique'],
         ];
     }
 
@@ -50,7 +51,7 @@ class Fakultas extends \yii\db\ActiveRecord
     /**
      * @return \yii\db\ActiveQuery
      */
-    public function getProdi()
+    public function getProdis()
     {
         return $this->hasMany(Prodi::className(), ['id_fakultas' => 'id']);
     }

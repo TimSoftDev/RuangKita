@@ -33,6 +33,7 @@ class Prodi extends \yii\db\ActiveRecord
             [['id_fakultas', 'nama'], 'required'],
             [['id_fakultas'], 'integer'],
             [['nama'], 'string', 'max' => 63],
+            [['nama'], 'unique'],
             [['id_fakultas'], 'exist', 'skipOnError' => true, 'targetClass' => Fakultas::className(), 'targetAttribute' => ['id_fakultas' => 'id']],
         ];
     }
@@ -44,7 +45,7 @@ class Prodi extends \yii\db\ActiveRecord
     {
         return [
             'id' => 'ID',
-            'id_fakultas' => 'ID Fakultas',
+            'id_fakultas' => 'Id Fakultas',
             'nama' => 'Nama',
         ];
     }
@@ -52,7 +53,7 @@ class Prodi extends \yii\db\ActiveRecord
     /**
      * @return \yii\db\ActiveQuery
      */
-    public function getFakultas()
+    public function getIdFakultas()
     {
         return $this->hasOne(Fakultas::className(), ['id' => 'id_fakultas']);
     }
@@ -60,7 +61,7 @@ class Prodi extends \yii\db\ActiveRecord
     /**
      * @return \yii\db\ActiveQuery
      */
-    public function getUser()
+    public function getUsers()
     {
         return $this->hasMany(User::className(), ['prodi' => 'nama']);
     }

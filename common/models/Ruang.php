@@ -32,6 +32,7 @@ class Ruang extends \yii\db\ActiveRecord
             [['nama', 'kapasitas'], 'required'],
             [['kapasitas'], 'integer'],
             [['nama'], 'string', 'max' => 63],
+            [['nama'], 'unique'],
         ];
     }
 
@@ -50,7 +51,7 @@ class Ruang extends \yii\db\ActiveRecord
     /**
      * @return \yii\db\ActiveQuery
      */
-    public function getRuangan()
+    public function getRuangans()
     {
         return $this->hasMany(Ruangan::className(), ['ruang' => 'nama']);
     }

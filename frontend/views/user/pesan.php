@@ -5,51 +5,79 @@ use yii\helpers\ArrayHelper;
 use yii\widgets\ActiveForm;
 use common\models\Ruang;
 use kartik\datetime\DateTimePicker;
+use yiister\gentelella\widgets\Panel;
 
 $this->title = 'Pesan Ruang';
 $this->params['breadcrumbs'][] = ['label' => 'User', 'url' => ['user/index']];
 $this->params['breadcrumbs'][] = $this->title;
 ?>
-<div class="pesanan-create">
+<div class="user-pesan">
 
-    <h1><?= Html::encode($this->title) ?></h1>
+    <?php $form = ActiveForm::begin(); ?>
+    	<?php
+	    Panel::begin(
+	        [
+	            'header' => 'Data Saya',
+	            'icon' => 'id-badge',
+	            'collapsable' => true,
+	        ]
+	    )
+	    ?>
 
-    <div class="pesanan-form">
+    	<div class="row">
+	    	<div class="col-md-4 col-sm-4 col-xs-12">
+	    		<?= $form->field($model, 'nama')
+		    		->textInput(['value' => strtoupper(Yii::$app->user->identity->nama_depan . ' ' . Yii::$app->user->identity->nama_belakang),
+		    		'disabled' => 'disabled'
+		    	]) ?>
+	    	</div>
+	    	<div class="col-md-4 col-sm-4 col-xs-12">
+	    		<?= $form->field($model, 'nim')
+	    			->label('NIM')
+		    		->textInput(['value' => Yii::$app->user->identity->nim, 'disabled' => 'disabled'
+		    	]) ?>
+	    	</div>
+	    	<div class="col-md-4 col-sm-4 col-xs-12">
+	    		<?= $form->field($model, 'prodi')
+		    		->textInput(['value' => Yii::$app->user->identity->prodi,
+		    		'disabled' => 'disabled'
+		    	]) ?>
+	    	</div>
+    	</div>
 
-	    <?php $form = ActiveForm::begin(); ?>
+   		<?php Panel::end() ?>
 
-	    	<?= $form->field($model, 'nama')
-	    		->textInput(['value' => strtoupper(Yii::$app->user->identity->nama_depan . ' ' . Yii::$app->user->identity->nama_belakang),
-	    		'disabled' => 'disabled'
-	    	]) ?>
+   		<?php
+	    Panel::begin(
+	        [
+	            'header' => 'Form Pemesanan Ruang',
+	            'icon' => 'tasks',
+	            'collapsable' => true,
+	        ]
+	    )
+	    ?>
 
-	    	<?= $form->field($model, 'nim')
-	    		->textInput(['value' => Yii::$app->user->identity->nim, 'disabled' => 'disabled'
-	    	]) ?>
+	    <?= $form->field($model, 'no_surat')
+	    	->textInput(['maxlength' => true
+	    ]) ?>
 
-	    	<?= $form->field($model, 'prodi')
-	    		->textInput(['value' => Yii::$app->user->identity->prodi,
-	    		'disabled' => 'disabled'
-	    	]) ?>
+	    <?= $form->field($model, 'ruang')
+            ->dropDownList(ArrayHelper::map(Ruang::find()->all(),
+            'nama', 'nama'),
+            ['prompt' => '=== PILIH RUANG ===']
+        ) ?>
 
-		    <?= $form->field($model, 'no_surat')
-		    	->textInput(['maxlength' => true
-		    ]) ?>
+        <div class="row">
 
-		    <?= $form->field($model, 'ruang')
-                ->dropDownList(ArrayHelper::map(Ruang::find()->all(),
-                'nama', 'nama'),
-                ['prompt' => 'Pilih Ruang']
-            ) ?>
-
-            <?= $form->field($model, 'waktu_mulai')
-            	->widget(DateTimePicker::classname(), [
+	        <?= $form->field($model, 'waktu_mulai')
+	        	->widget(DateTimePicker::classname(), [
 			    'options' => ['placeholder' => date('Y-m-d H:i')],
+		    	'removeButton' => false,
+		    	'pickerButton' => ['icon' => 'time'],
 			    'pluginOptions' => [
 			        'autoclose'=>true,		
 			        'todayHighlight' => true,
 			        'calendarWeeks' => true,
-			        'daysOfWeekDisabled' => [0, 5, 6],
 			        'format' => 'yyyy-mm-dd hh:ii'
 			    ]
 			]); ?>
@@ -57,20 +85,24 @@ $this->params['breadcrumbs'][] = $this->title;
 			<?= $form->field($model, 'waktu_selesai')
 				->widget(DateTimePicker::classname(), [
 			    'options' => ['placeholder' => date('Y-m-d H:i')],
+			    'removeButton' => false,
+		    	'pickerButton' => ['icon' => 'time'],
 			    'pluginOptions' => [
 			        'autoclose'=>true,		
 			        'todayHighlight' => true,
 			        'calendarWeeks' => true,
-			        'daysOfWeekDisabled' => [0, 5, 6],
 			        'format' => 'yyyy-mm-dd hh:ii'
 			    ]
 			]); ?>
+			
+		</div>
 
-		    <div class="form-group">
-		        <?= Html::submitButton('Pesan', ['class' => 'btn btn-primary', 'name' => 'pesan-button']) ?>
-		    </div>
+	    <div class="form-group" style="margin-top: 40px">
+	        <?= Html::submitButton('Pesan Sekarang', ['class' => 'btn btn-primary', 'name' => 'pesan-button']) ?>
+	        <?= Html::resetButton('Reset', ['class' => 'btn btn-default', 'name' => 'reset-button']) ?>
+	    </div>
 
-	    <?php ActiveForm::end(); ?>
+   		<?php Panel::end() ?>
+    <?php ActiveForm::end(); ?>
 
-    </div>
 </div>
