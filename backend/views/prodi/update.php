@@ -1,21 +1,30 @@
 <?php
 
 use yii\helpers\Html;
+use yii\helpers\ArrayHelper;
+use yii\widgets\ActiveForm;
+use common\models\Fakultas;
 
-/* @var $this yii\web\View */
-/* @var $model common\models\Prodi */
-
-$this->title = 'Update Prodi: ' . $model->id;
-$this->params['breadcrumbs'][] = ['label' => 'Prodis', 'url' => ['index']];
-$this->params['breadcrumbs'][] = ['label' => $model->id, 'url' => ['view', 'id' => $model->id]];
-$this->params['breadcrumbs'][] = 'Update';
+$this->title = 'Update Prodi: ' . $model->nama;
 ?>
-<div class="prodi-update">
+<div class="main">
+    
+    <?php $form = ActiveForm::begin(); ?>
 
-    <h1><?= Html::encode($this->title) ?></h1>
+    <?= $form->field($model, 'id_fakultas')
+    	->label('Fakultas')
+        ->dropDownList(ArrayHelper::map(Fakultas::find()
+        ->all(),
+        'id', 'nama'),
+        ['prompt' => '=== PILIH FAKULTAS ===']
+    ) ?>
 
-    <?= $this->render('_form', [
-        'model' => $model,
-    ]) ?>
+    <?= $form->field($model, 'nama')->textInput(['maxlength' => true]) ?>
+
+    <div class="form-group">
+        <?= Html::submitButton('Perbarui', ['class' => 'btn btn-primary']) ?>
+    </div>
+
+    <?php ActiveForm::end(); ?>
 
 </div>

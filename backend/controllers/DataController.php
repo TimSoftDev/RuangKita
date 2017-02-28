@@ -16,7 +16,7 @@ class DataController extends Controller
 {
     public function behaviors()
     {
-        return [
+        return [            
             'access' => [
                 'class' => AccessControl::className(),
                 'rules' => [
@@ -24,6 +24,12 @@ class DataController extends Controller
                         'allow' => true,
                         'roles' => ['@'],
                     ],
+                ],
+            ],
+            'verbs' => [
+                'class' => VerbFilter::className(),
+                'actions' => [
+                    'delete' => ['POST'],
                 ],
             ],
         ];
@@ -154,8 +160,9 @@ class DataController extends Controller
             $tasks[] = $ruang;
         }
 
-        return $this->render('aktif', [
+        return $this->render('data', [
             'ruang' => $tasks,
+            'title' => 'Data Sudah Divalidasi'
         ]);
     }
 
@@ -178,8 +185,9 @@ class DataController extends Controller
             $tasks[] = $ruang;
         }
 
-        return $this->render('menunggu', [
+        return $this->render('data', [
             'ruang' => $tasks,
+            'title' => 'Data Menunggu Validasi'
         ]);
     }
 
@@ -187,7 +195,6 @@ class DataController extends Controller
     {
         $ruangan = Ruangan::find()
             ->where(['between', 'waktu_selesai', 0, date('Y-m-d H:i')])
-            ->andWhere(['status' => 'Aktif'])
             ->all();
         
         $tasks=[];  
@@ -203,8 +210,9 @@ class DataController extends Controller
             $tasks[] = $ruang;
         }
 
-        return $this->render('nonaktif', [
+        return $this->render('data', [
             'ruang' => $tasks,
+            'title' => 'Data Sudah Kadaluarsa'
         ]);
     }
 }

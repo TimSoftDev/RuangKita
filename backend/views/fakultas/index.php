@@ -10,7 +10,7 @@ use yiister\gentelella\widgets\Panel;
 $this->title = 'Data Fakultas';
 
 ?>
-<div class="fakultas-index">
+<div class="main">
     <?= Html::a('Tambah Data', ['create'], ['class' => 'btn btn-primary']) ?>
 
     <div style="margin-bottom: 24px"></div>

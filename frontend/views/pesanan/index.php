@@ -69,6 +69,7 @@ $this->title = 'Data Pemesanan Peminjamanku';
                 <div class="col-md-2 col-sm-2 col-xs-12">
                     <?= Html::button('Sudah Kadaluarsa', ['class' => 'btn btn-xs btn-block btn-nonaktif']); ?>
                 </div>
+				<div class="clearfix"></div>
             </div>
 
             <div style="margin-top: 32px"></div>

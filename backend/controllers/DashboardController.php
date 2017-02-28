@@ -4,7 +4,7 @@ namespace backend\controllers;
 
 use Yii;
 use common\models\Ruangan;
-use backend\models\DataSearch;
+use common\models\RuanganSearch;
 use yii\web\Controller;
 use yii\web\NotFoundHttpException;
 use yii\filters\VerbFilter;
@@ -24,13 +24,6 @@ class DashboardController extends Controller
                     ],
                 ],
             ],
-            'verbs' => [
-                'class' => VerbFilter::className(),
-                'actions' => [
-                    'delete' => ['POST'],
-                ],
-            ],
-        ];
     }
 
 
@@ -84,7 +77,7 @@ class DashboardController extends Controller
     
     public function actionRuangan()
     {
-        $searchModel = new DataSearch();
+        $searchModel = new RuanganSearch();
         $dataProvider = $searchModel->search(Yii::$app->request->queryParams);
 
         return $this->render('ruangan', [

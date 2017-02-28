@@ -114,35 +114,4 @@ class PesanankuSearch extends Ruangan
 
         return $dataProvider;
     }
-
-    public function nonaktif($params)
-    {
-        $query = Ruangan::find();
-
-        $dataProvider = new ActiveDataProvider([
-            'query' => $query,
-        ]);
-
-        $this->load($params);
-
-        if (!$this->validate()) {
-            // uncomment the following line if you do not want to return any records when validation fails
-            // $query->where('0=1');
-            return $dataProvider;
-        }
-
-        // grid filtering conditions
-        $query->andFilterWhere([
-            'waktu_mulai' => $this->waktu_mulai,
-            'waktu_pesan' => $this->waktu_pesan,
-        ]);
-
-        $query->andFilterWhere(['like', 'nim_mahasiswa', Yii::$app->user->identity->nim])
-            ->andFilterWhere(['like', 'ruang', $this->ruang])
-            ->andFilterWhere(['like', 'no_surat', $this->no_surat])
-            ->andFilterWhere(['like', 'status', $this->status])
-            ->andFilterWhere(['like', 'waktu_selesai', 0]);
-
-        return $dataProvider;
-    }
 }

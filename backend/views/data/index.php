@@ -12,7 +12,7 @@ use common\models\Ruang;
 $this->title = 'Data Pemesanan';
 
 ?>
-<div class="data-index">
+<div class="main">
 
     <?php $form = ActiveForm::begin([
         'method' => 'get',
@@ -81,9 +81,18 @@ Modal::begin([
     'size' => 'modal-lg'
 ]) ?>
 
-	<button class="btn btn-xs" style="background-color: #FFBB40; border-color: #FFA500; color: #fff;cursor: inherit;">Menunggu Validasi</button>
-	<button class="btn btn-xs" style="background-color: #40A040; border-color: #008000; color: #fff;cursor: inherit;">Dalam Masa Aktif</button>
-	<button class="btn btn-xs" style="background-color: #FF4040; border-color: #FF0000; color: #fff;cursor: inherit;">Sudah Kadaluarsa</button>
+	<div class="row">
+        <div class="col-md-2 col-sm-2 col-xs-6">
+            <?= Html::button('Menunggu Validasi', ['class' => 'btn btn-xs btn-block btn-menunggu']); ?>
+        </div>
+        <div class="col-md-2 col-sm-2 col-xs-6">
+            <?= Html::button('Dalam Masa Aktif', ['class' => 'btn btn-xs btn-block btn-aktif']); ?>
+        </div>
+        <div class="col-md-2 col-sm-2 col-xs-12">
+            <?= Html::button('Sudah Kadaluarsa', ['class' => 'btn btn-xs btn-block btn-nonaktif']); ?>
+        </div>
+        <div class="clearfix"></div>
+    </div>
 
 	<div style="margin-top: 32px;"></div>
 

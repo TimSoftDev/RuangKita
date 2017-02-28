@@ -10,7 +10,7 @@ use common\models\Ruang;
 
 $this->title = 'Data Pemesanan Ruangan';
 ?>
-<div class="ruangan-index">
+<div class="main">
 
     <div class="row">
         <div class="col-md-12 col-sm-12 col-xs-12">

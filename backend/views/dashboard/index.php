@@ -9,7 +9,7 @@ use yiister\gentelella\widgets\StatsTile;
 $this->title = 'Pemesanan Ruangan';
 ?>
 
-<div class="dasboard-index">
+<div class="main">
     <div class="row">
         <div class="col-xs-12 col-md-4">
             <?= StatsTile::widget(

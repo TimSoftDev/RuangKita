@@ -1,16 +1,16 @@
 <?php
 
-namespace backend\models;
+namespace common\models;
 
 use Yii;
 use yii\base\Model;
 use yii\data\ActiveDataProvider;
-use common\models\Ruang;
+use common\models\Fakultas;
 
 /**
- * RuangSearch represents the model behind the search form about `common\models\Ruang`.
+ * FakultasSearch represents the model behind the search form about `common\models\Fakultas`.
  */
-class RuangSearch extends Ruang
+class FakultasSearch extends Fakultas
 {
     /**
      * @inheritdoc
@@ -18,8 +18,8 @@ class RuangSearch extends Ruang
     public function rules()
     {
         return [
-            [['id', 'kapasitas'], 'integer'],
-            [['nama'], 'safe'],
+            [['id'], 'integer'],
+            [['nama', 'alamat'], 'safe'],
         ];
     }
 
@@ -41,7 +41,7 @@ class RuangSearch extends Ruang
      */
     public function search($params)
     {
-        $query = Ruang::find();
+        $query = Fakultas::find();
 
         // add conditions that should always apply here
 
@@ -60,10 +60,10 @@ class RuangSearch extends Ruang
         // grid filtering conditions
         $query->andFilterWhere([
             'id' => $this->id,
-            'kapasitas' => $this->kapasitas,
         ]);
 
-        $query->andFilterWhere(['like', 'nama', $this->nama]);
+        $query->andFilterWhere(['like', 'nama', $this->nama])
+            ->andFilterWhere(['like', 'alamat', $this->alamat]);
 
         return $dataProvider;
     }

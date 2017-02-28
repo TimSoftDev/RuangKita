@@ -9,20 +9,11 @@ use yiister\gentelella\widgets\Panel;
 use common\models\Ruang;
 
 
-$this->title = 'Data Pemesanan Menunggu Validasi';
+$this->title = $title;
 
 ?>
-<div class="data-menunggu">
+<div class="main">
 
-    <?php
-    Panel::begin(
-        [
-            'header' => 'Menampilkan Data Pemesanan Menunggu Validai',
-            'icon' => 'list-alt',
-            'collapsable' => true,
-        ]
-    )
-    ?>
 	<?= \yii2fullcalendar\yii2fullcalendar::widget(array(
 	    'options' => [
 	        'lang' => 'id'
@@ -34,6 +25,5 @@ $this->title = 'Data Pemesanan Menunggu Validasi';
 	        'right'=>'agendaDay agendaWeek listMonth'
 	    ]
 	)); ?>
-    <?php Panel::end() ?>
 
 </div>

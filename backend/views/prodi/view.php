@@ -3,20 +3,14 @@
 use yii\helpers\Html;
 use yii\widgets\DetailView;
 
-/* @var $this yii\web\View */
-/* @var $model common\models\Prodi */
+$this->title = $model->nama;
 
-$this->title = $model->id;
-$this->params['breadcrumbs'][] = ['label' => 'Prodis', 'url' => ['index']];
-$this->params['breadcrumbs'][] = $this->title;
+$nama = common\models\Fakultas::find()->where(['id' => $model->id_fakultas])->one();
 ?>
-<div class="prodi-view">
-
-    <h1><?= Html::encode($this->title) ?></h1>
-
+<div class="main">
     <p>
-        <?= Html::a('Update', ['update', 'id' => $model->id], ['class' => 'btn btn-primary']) ?>
-        <?= Html::a('Delete', ['delete', 'id' => $model->id], [
+        <?= Html::a('Perbarui', ['update', 'id' => $model->id], ['class' => 'btn btn-primary']) ?>
+        <?= Html::a('Hapus', ['delete', 'id' => $model->id], [
             'class' => 'btn btn-danger',
             'data' => [
                 'confirm' => 'Are you sure you want to delete this item?',
@@ -28,8 +22,11 @@ $this->params['breadcrumbs'][] = $this->title;
     <?= DetailView::widget([
         'model' => $model,
         'attributes' => [
-            'id',
-            'id_fakultas',
+        
+            [
+                'label' => 'Fakultas',
+                'value' => $nama->nama,
+            ],
             'nama',
         ],
     ]) ?>

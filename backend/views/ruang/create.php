@@ -1,21 +1,25 @@
 <?php
 
 use yii\helpers\Html;
+use yii\helpers\ArrayHelper;
+use yii\widgets\ActiveForm;
 
 
-/* @var $this yii\web\View */
-/* @var $model common\models\Ruang */
+$this->title = 'Tambah Ruangan';
 
-$this->title = 'Create Ruang';
-$this->params['breadcrumbs'][] = ['label' => 'Ruangs', 'url' => ['index']];
-$this->params['breadcrumbs'][] = $this->title;
 ?>
-<div class="ruang-create">
+<div class="main">
+    
+    <?php $form = ActiveForm::begin(); ?>
 
-    <h1><?= Html::encode($this->title) ?></h1>
+    <?= $form->field($model, 'nama')->textInput(['maxlength' => true]) ?>
 
-    <?= $this->render('_form', [
-        'model' => $model,
-    ]) ?>
+    <?= $form->field($model, 'kapasitas')->textInput(['maxlength' => true]) ?>
+
+    <div class="form-group">
+        <?= Html::submitButton('Tambah', ['class' => 'btn btn-primary']) ?>
+    </div>
+
+    <?php ActiveForm::end(); ?>
 
 </div>

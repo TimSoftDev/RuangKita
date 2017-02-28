@@ -7,7 +7,9 @@ use common\models\SesiWaktu;
 use common\models\SesiWaktuSearch;
 use yii\web\Controller;
 use yii\web\NotFoundHttpException;
+use yii\filters\AccessControl;
 use yii\filters\VerbFilter;
+use backend\models\SesiWaktuForm;
 
 /**
  * SesiWaktuController implements the CRUD actions for SesiWaktu model.
@@ -19,7 +21,16 @@ class SesiWaktuController extends Controller
      */
     public function behaviors()
     {
-        return [
+        return [            
+            'access' => [
+                'class' => AccessControl::className(),
+                'rules' => [
+                    [
+                        'allow' => true,
+                        'roles' => ['@'],
+                    ],
+                ],
+            ],
             'verbs' => [
                 'class' => VerbFilter::className(),
                 'actions' => [
@@ -63,15 +74,19 @@ class SesiWaktuController extends Controller
      */
     public function actionCreate()
     {
-        $model = new SesiWaktu();
+        $model = new SesiWaktuForm();
+        if ($model->load(Yii::$app->request->post())) {
+            if ($tambah = $model->tambah()) {
 
-        if ($model->load(Yii::$app->request->post()) && $model->save()) {
-            return $this->redirect(['view', 'id' => $model->id]);
-        } else {
-            return $this->render('create', [
-                'model' => $model,
-            ]);
-        }
+                Yii::$app->session->setFlash('success', 'Penambahan data sesi waktu berhasil.');
+                return $this->redirect('index');
+            }
+
+        } 
+
+        return $this->render('create', [
+            'model' => $model,
+        ]);
     }
 
     /**
@@ -84,7 +99,9 @@ class SesiWaktuController extends Controller
     {
         $model = $this->findModel($id);
 
-        if ($model->load(Yii::$app->request->post()) && $model->save()) {
+        if ($model->load(Yii::$app->request->post())) {
+            $model->tampil = $model->mulai . ' - ' . $model->selesai;
+            $model->save();
             return $this->redirect(['view', 'id' => $model->id]);
         } else {
             return $this->render('update', [

@@ -2,6 +2,7 @@
 
 use yii\helpers\Html;
 use yiister\gentelella\widgets\Panel;
+use common\models\Ruangan;
 
 if (Yii::$app->controller->action->id === 'error' ||
     Yii::$app->controller->action->id === 'login' ||
@@ -16,19 +17,19 @@ if (Yii::$app->controller->action->id === 'error' ||
     );
 } else {
 
-$bundle = yiister\gentelella\assets\Asset::register($this);
+$asset = yiister\gentelella\assets\Asset::register($this);
+$tema = frontend\assets\TemaAsset::register($this);
 
-$aktif = common\models\Ruangan::find()
+$aktif = Ruangan::find()
     ->where(['status' => 'Aktif'])
     ->count();
 
-$menunggu = common\models\Ruangan::find()
+$menunggu = Ruangan::find()
     ->where(['status' => 'Menunggu Validasi'])
     ->count();
 
-$nonaktif = common\models\Ruangan::find()
+$nonaktif = Ruangan::find()
     ->where(['between', 'waktu_selesai', 0, date('Y-m-d H:i')])
-    ->andWhere(['status' => 'Aktif'])
     ->count();
 ?>
 <?php $this->beginPage(); ?>
@@ -47,6 +48,7 @@ $nonaktif = common\models\Ruangan::find()
     <script src="https://oss.maxcdn.com/html5shiv/3.7.2/html5shiv.min.js"></script>
     <script src="https://oss.maxcdn.com/respond/1.4.2/respond.min.js"></script>
     <![endif]-->
+    <link rel="shortcut icon" href="<?= Yii::$app->homeUrl . '/img/favicon.png' ?>">
 </head>
 <body class="nav-md">
 <?php $this->beginBody(); ?>
@@ -70,7 +72,11 @@ $nonaktif = common\models\Ruangan::find()
                                         "url" => "#",
                                         "icon" => "pencil",
                                         "items" => [
-                                            ["label" => "Data Pesanan", "url" => ["data/index"]],
+                                            [
+                                                "label" => "Data Pesanan",
+                                                "url" => ["data/index"],
+                                                "badge" => $aktif + $menunggu
+                                            ],
                                             [
                                                 "label" => "Pesanan Aktif",
                                                 "url" => ["data/aktif"],
@@ -84,7 +90,7 @@ $nonaktif = common\models\Ruangan::find()
                                                 "badgeOptions" => ["class" => "label-warning"]
                                             ],
                                             [
-                                                "label" => "Pesanan Non-Aktif",
+                                                "label" => "Pesanan Kadaluarsa",
                                                 "url" => ["data/nonaktif"],
                                                 "badge" => $nonaktif,
                                                 "badgeOptions" => ["class" => "label-danger"]
@@ -113,22 +119,22 @@ $nonaktif = common\models\Ruangan::find()
                     <?= Html::a(
                         '<span class="fa fa-home" aria-hidden="true"></span>',
                         ['/'],
-                        ['data-toggle' => 'tooltip', 'data-placement' => 'top', 'title' => 'Home']
+                        ['title' => 'Home']
                     ) ?>
                     <?= Html::a(
                         '<span class="fa fa-building" aria-hidden="true"></span>',
                         ['dashboard/ruangan'],
-                        ['data-toggle' => 'tooltip', 'data-placement' => 'top', 'title' => 'Pemesanan Ruangan']
+                        ['title' => 'Pemesanan Ruangan']
                     ) ?>
                     <?= Html::a(
                         '<span class="fa fa-user" aria-hidden="true"></span>',
                         ['data/user'],
-                        ['data-method' => 'post', 'data-toggle' => 'tooltip', 'data-placement' => 'top', 'title' => 'Data Pemesan']
+                        ['title' => 'Data Pemesan']
                     ) ?>
                     <?= Html::a(
                         '<span class="fa fa-sign-out" aria-hidden="true"></span>',
                         ['site/logout'],
-                        ['data-method' => 'post', 'data-toggle' => 'tooltip', 'data-placement' => 'top', 'title' => 'Keluar']
+                        ['data-method' => 'post', 'title' => 'Keluar']
                     ) ?>
                 </div>
             </div>
