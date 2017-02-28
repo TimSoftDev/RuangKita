@@ -4,16 +4,16 @@ use yii\helpers\Html;
 use yii\helpers\ArrayHelper;
 use yii\widgets\ActiveForm;
 use common\models\Ruang;
-use kartik\datetime\DateTimePicker;
+use common\models\SesiWaktu;
 use yiister\gentelella\widgets\Panel;
+use kartik\date\DatePicker;
 
-$this->title = 'Pesan Ruang';
-$this->params['breadcrumbs'][] = ['label' => 'User', 'url' => ['user/index']];
-$this->params['breadcrumbs'][] = $this->title;
+$this->title = 'Tambah Data Pemesanan Ruangan';
+
 ?>
-<div class="user-pesan">
+<div class="main">
 
-    <?php $form = ActiveForm::begin(); ?>
+	<?php $form = ActiveForm::begin(); ?>
     	<?php
 	    Panel::begin(
 	        [
@@ -50,55 +50,44 @@ $this->params['breadcrumbs'][] = $this->title;
    		<?php
 	    Panel::begin(
 	        [
-	            'header' => 'Form Pemesanan Ruang',
+	            'header' => 'Form Tambah Pemesanan Ruang',
 	            'icon' => 'tasks',
 	            'collapsable' => true,
 	        ]
 	    )
 	    ?>
-
-	    <?= $form->field($model, 'no_surat')
-	    	->textInput(['maxlength' => true
-	    ]) ?>
+	    <?= $form->field($model, 'no_surat')->textInput(['maxlength' => true]) ?>
 
 	    <?= $form->field($model, 'ruang')
-            ->dropDownList(ArrayHelper::map(Ruang::find()->all(),
+            ->dropDownList(ArrayHelper::map(Ruang::find()
+            ->select('nama')
+            ->all(),
             'nama', 'nama'),
             ['prompt' => '=== PILIH RUANG ===']
         ) ?>
 
-        <div class="row">
+        <?= $form->field($model, 'tanggal')
+        	->widget(DatePicker::classname(), [
+		    'options' => ['placeholder' => date('Y-m-d H:i')],
+	    	'removeButton' => false,
+		    'pluginOptions' => [
+		        'autoclose'=>true,		
+		        'todayHighlight' => true,
+		        'calendarWeeks' => true,
+		        'format' => 'yyyy-mm-dd'
+		    ]
+		]); ?>
 
-	        <?= $form->field($model, 'waktu_mulai')
-	        	->widget(DateTimePicker::classname(), [
-			    'options' => ['placeholder' => date('Y-m-d H:i')],
-		    	'removeButton' => false,
-		    	'pickerButton' => ['icon' => 'time'],
-			    'pluginOptions' => [
-			        'autoclose'=>true,		
-			        'todayHighlight' => true,
-			        'calendarWeeks' => true,
-			        'format' => 'yyyy-mm-dd hh:ii'
-			    ]
-			]); ?>
-
-			<?= $form->field($model, 'waktu_selesai')
-				->widget(DateTimePicker::classname(), [
-			    'options' => ['placeholder' => date('Y-m-d H:i')],
-			    'removeButton' => false,
-		    	'pickerButton' => ['icon' => 'time'],
-			    'pluginOptions' => [
-			        'autoclose'=>true,		
-			        'todayHighlight' => true,
-			        'calendarWeeks' => true,
-			        'format' => 'yyyy-mm-dd hh:ii'
-			    ]
-			]); ?>
-			
-		</div>
+		<?= $form->field($model, 'sesi_waktu')
+			->dropDownList(ArrayHelper::map(SesiWaktu::find()
+			->select('tampil')
+			->all(),
+			'tampil', 'tampil'),
+			['prompt' => '=== SESI WAKTU ===']
+		) ?>
 
 	    <div class="form-group" style="margin-top: 40px">
-	        <?= Html::submitButton('Pesan Sekarang', ['class' => 'btn btn-primary', 'name' => 'pesan-button']) ?>
+	        <?= Html::submitButton('Tambah Data', ['class' => 'btn btn-primary', 'name' => 'pesan-button']) ?>
 	        <?= Html::resetButton('Reset', ['class' => 'btn btn-default', 'name' => 'reset-button']) ?>
 	    </div>
 

@@ -2,16 +2,27 @@
 
 use yii\helpers\Html;
 
-$this->title = 'Halaman tidah ditemukan';
-
+$this->title = 'Login';
+$this->params['breadcrumbs'][] = $this->title;
 ?>
 
-<a href="<?= Yii::$app->homeUrl ?>">
-	<span id="logo" aria-label="<?= Yii::$app->homeUrl ?>"></span>
-</a>
-<p>
-	<b>404.</b> <ins>That’s an error.</ins>
-</p>
-<p>
-	The requested URL <code>__</code> was not found on this server.  <ins>That’s all we know.</ins>
-</p>
+<div class="main">
+    <div class="login">
+        <div class="logo">
+            <?= Html::img('@web/img/logo.png', ['alt' => 'Logo Universitas Sebelas Maret']); ?>
+        </div>
+        <div class="text-center">
+        	<h1>404</h1>
+
+	        <p>
+	        	Maaf, Halaman yang anda cari tidak ditemukan.
+	        </p>
+	        
+        </div>
+
+    </div>
+
+    <div class="login-help">
+        <span class="pull-left">Kembali ke <?= Html::a('Dashboard', ['user/index']) ?>.</span>
+    </div>
+</div>

@@ -64,7 +64,7 @@ class TambahDataPemesanan extends Model
             $user->waktu_selesai = $waktu_selesai;      
         
             $user->nim_mahasiswa = strtoupper($this->nim_mahasiswa);
-            $user->status = 'Menunggu Validasi';
+            $user->status = 'Aktif';
             $user->waktu_pesan = $hari;            
             $user->waktu_validasi = $hari;
             $user->validator = Yii::$app->user->identity->nama;

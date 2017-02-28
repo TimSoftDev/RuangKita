@@ -1,4 +1,29 @@
-.judul {
-	margin-bottom: 32px;
-	border-bottom: 1px solid #D9DEE4; 
+.btn-menunggu {
+	background-color: #FFBB40;
+	border-color: #FFA500;
+	color: #fff;
+	cursor: inherit;
+}
+
+.btn-aktif {
+	background-color: #40A040;
+	border-color: #008000;
+	color: #fff;
+	cursor: inherit;
+}
+
+.btn-nonaktif {
+	background-color: #FF4040;
+	border-color: #FF0000;
+	color: #fff;
+	cursor: inherit;
+}
+
+.btn-menunggu:focus,
+.btn-aktif:focus,
+.btn-nonaktif:focus,
+.btn-menunggu:hover,
+.btn-aktif:hover,
+.btn-nonaktif:hover {
+	color: #fff;
 }

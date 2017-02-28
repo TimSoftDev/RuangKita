@@ -5,60 +5,48 @@ use yii\helpers\ArrayHelper;
 use yii\widgets\Pjax;
 use yii\widgets\ActiveForm;
 use yiister\gentelella\widgets\Panel;
-use common\models\Ruang;
 
 
-$this->title = 'Monitor Ruangan';
+$this->title = 'Data Pemesanan Peminjamanku';
 ?>
 <div class="main">
-    <?php $form = ActiveForm::begin([
-        'method' => 'get',
-    ]); ?>
-
-        <?= $form->field($searchModel, 'ruang')
-            ->label(false)
-            ->dropDownList(ArrayHelper::map(Ruang::find()->all(),
-            'nama', 'nama'),
-            ['prompt' => '=== CEK RUANGAN ===']
-        ) ?>
-
-        <div class="form-group">
-            <?= Html::submitButton('Tampilkan Ruang', ['class' => 'btn btn-primary btn-sm']) ?>
-            <?= Html::a('Pesan Sekarang', ['pesanan/pesan'], ['class' => 'btn btn-default btn-sm']) ?>
-        </div>
-    <?php ActiveForm::end(); ?>
-
-    <div style="margin-top: 16px">
-        <?php
-        Panel::begin(
-            [
-                'header' => 'Data Peminjaman Ruang <small>Tampilan Grid</small>',
-                'icon' => 'list-alt',
-                'collapsable' => true,
-            ]
-        )
-        ?>
         
-        <?php Pjax::begin(); ?>
-            <?= \yiister\gentelella\widgets\grid\GridView::widget(
-                [
-                    'dataProvider' => $dataProvider,
-                    'columns' => [
-                        ['class' => 'yii\grid\SerialColumn'],
+    <?= Html::a('Pesan Ruang', ['pesanan/pesan'], ['class' => 'btn btn-md btn-block btn-primary', 'style' => 'margin-bottom: 24px']); ?>
 
-                        'ruang',
-                        'waktu_mulai',
-                        'waktu_selesai',
-                        'status',
+    <?php
+    Panel::begin(
+        [
+            'header' => 'Data Peminjaman Ruang <small>Tampilan Grid</small>',
+            'icon' => 'list-alt',
+            'collapsable' => true,
+        ]
+    )
+    ?>
+    
+    <?php Pjax::begin(); ?>
+        <?= \yiister\gentelella\widgets\grid\GridView::widget(
+            [
+                'dataProvider' => $dataProvider,
+                'columns' => [
+                    ['class' => 'yii\grid\SerialColumn'],
+
+                    'ruang',
+                    'waktu_mulai',
+                    'waktu_selesai',
+                    'status',
+
+                    [
+                    	'class' => 'yii\grid\ActionColumn',
+                    	'template' => '{view}',
                     ],
-                    'hover' => true,
-                    'condensed' => true,
-                ]
-            );
-            ?>
-        <?php Pjax::end(); ?>
-        <?php Panel::end() ?>
-    </div>
+                ],
+                'hover' => true,
+                'condensed' => true,
+            ]
+        );
+        ?>
+    <?php Pjax::end(); ?>
+    <?php Panel::end() ?>
 
     <div style="margin-top: 16px">
         <?php
@@ -81,7 +69,6 @@ $this->title = 'Monitor Ruangan';
                 <div class="col-md-2 col-sm-2 col-xs-12">
                     <?= Html::button('Sudah Kadaluarsa', ['class' => 'btn btn-xs btn-block btn-nonaktif']); ?>
                 </div>
-                <div class="clearfix"></div>
             </div>
 
             <div style="margin-top: 32px"></div>

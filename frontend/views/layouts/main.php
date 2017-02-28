@@ -17,7 +17,9 @@ if (Yii::$app->controller->action->id === 'error' ||
     );
 } else {
 
-$bundle = yiister\gentelella\assets\Asset::register($this);
+$asset = yiister\gentelella\assets\Asset::register($this);
+$tema = frontend\assets\TemaAsset::register($this);
+
 $_home = Yii::$app->homeUrl;
 $_nim = Yii::$app->user->identity->nim;
 $_email = Yii::$app->user->identity->email;
@@ -39,12 +41,6 @@ $menunggu = Ruangan::find()
     ->andWhere(['nim_mahasiswa' => $_nim])
     ->count();
 
-$nonaktif = Ruangan::find()
-    ->where(['between', 'waktu_selesai', 0, date('Y-m-d H:i')])
-    ->andWhere(['status' => 'Aktif'])
-    ->andWhere(['nim_mahasiswa' => $_nim])
-    ->count();
-
 ?>
 <?php $this->beginPage(); ?>
 <!DOCTYPE html>
@@ -62,12 +58,13 @@ $nonaktif = Ruangan::find()
     <script src="https://oss.maxcdn.com/html5shiv/3.7.2/html5shiv.min.js"></script>
     <script src="https://oss.maxcdn.com/respond/1.4.2/respond.min.js"></script>
     <![endif]-->
+    <link rel="shortcut icon" href="<?= Yii::$app->homeUrl . '/img/favicon.png' ?>">
 </head>
 <body class="nav-md">
 <?php $this->beginBody(); ?>
 <div class="container body">
     <div class="main_container">
-        <div class="col-md-3 left_col">
+        <div class="col-md-3 left_col menu_fixed">
             <div class="left_col scroll-view">
                 <div class="navbar nav_title">
                     <a href="<?= $_home ?>" class="site_title"><i class="fa fa-home"></i> <span>Pinjam Ruangan</span></a>
@@ -75,7 +72,11 @@ $nonaktif = Ruangan::find()
                 <div class="clearfix"></div>
                 <div class="profile">
                     <div class="profile_pic">                         
-                        <?= Html::img($_foto, ['class' => 'img-circle profile_img', 'alt' => $_email, 'style' => 'height: 56.35px']); ?>
+                        <?= Html::img($_foto, [
+                            'class' => 'img-circle profile_img',
+                            'alt' => $_email,
+                            'style' => 'height: 56px; width: 56px; padding: 2px;'
+                        ]); ?>
                     </div>
                     <div class="profile_info">
                         <span>Peminjaman Ruang,</span>
@@ -98,7 +99,7 @@ $nonaktif = Ruangan::find()
                                         [
                                             'label' => 'Data Pesanan',
                                             'url' => ['pesanan/index'],
-                                            'badge' => $aktif + $menunggu + $nonaktif
+                                            'badge' => $aktif + $menunggu
                                         ],
                                         [
                                             'label' => 'Pesanan Aktif',
@@ -112,12 +113,6 @@ $nonaktif = Ruangan::find()
                                             'badge' => $menunggu,
                                             'badgeOptions' => ['class' => 'label-warning']
                                         ],
-                                        [
-                                            'label' => 'Pesanan Non-Aktif',
-                                            'url' => ['pesanan/nonaktif'],
-                                            'badge' => $nonaktif,
-                                            'badgeOptions' => ['class' => 'label-danger']
-                                        ],
                                     ]
                                 ],
                                 ['label' => 'Bantuan', 'url' => ['user/bantuan'], 'icon' => 'question']                            
@@ -130,22 +125,22 @@ $nonaktif = Ruangan::find()
                     <?= Html::a(
                         '<span class="glyphicon glyphicon-home" aria-hidden="true"></span>',
                         ['/'],
-                        ['data-toggle' => 'tooltip', 'data-placement' => 'top', 'title' => 'Home']
+                        ['title' => 'Home']
                     ) ?>
                     <?= Html::a(
                         '<span class="glyphicon glyphicon-list-alt" aria-hidden="true"></span>',
                         ['user/ruangan'],
-                        ['data-toggle' => 'tooltip', 'data-placement' => 'top', 'title' => 'Data Ruangan']
+                        ['title' => 'Data Ruangan']
                     ) ?>
                     <?= Html::a(
                         '<span class="glyphicon glyphicon-user" aria-hidden="true"></span>',
                         ['user/profil'],
-                        ['data-method' => 'post', 'data-toggle' => 'tooltip', 'data-placement' => 'top', 'title' => 'Profil']
+                        ['title' => 'Profil']
                     ) ?>
                     <?= Html::a(
                         '<span class="glyphicon glyphicon-log-out" aria-hidden="true"></span>',
                         ['site/logout'],
-                        ['data-method' => 'post', 'data-toggle' => 'tooltip', 'data-placement' => 'top', 'title' => 'Keluar']
+                        ['data-method' => 'post', 'title' => 'Keluar']
                     ) ?>
                 </div>
             </div>

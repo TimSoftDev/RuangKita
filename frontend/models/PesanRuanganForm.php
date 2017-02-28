@@ -5,18 +5,19 @@ use Yii;
 use yii\base\Model;
 use common\models\Ruangan;
 use common\models\Ruang;
+use common\models\SesiWaktu;
 
 class PesanRuanganForm extends Model
 {
+    public $tanggal;
     public $no_surat;
     public $ruang;
-    public $waktu_mulai;
-    public $waktu_selesai;    
+    public $sesi_waktu;    
 
     public function rules()
     {
         return [
-            [['ruang', 'no_surat', 'waktu_mulai', 'waktu_selesai'], 'required', 'message'=> 'Bidang wajib diisi.'],
+            [['ruang', 'no_surat', 'tanggal', 'sesi_waktu'], 'required', 'message'=> ''],
             [['ruang', 'no_surat'], 'string', 'max' => 63],
             [['ruang'], 'exist', 'skipOnError' => true, 'targetClass' => Ruang::className(), 'targetAttribute' => ['ruang' => 'nama']],           
         ];
@@ -28,21 +29,28 @@ class PesanRuanganForm extends Model
             return null;
         }
 
+        $sesi = SesiWaktu::find()
+            ->where(['tampil' => $this->sesi_waktu])
+            ->one();
+
+        $waktu_mulai = $this->tanggal . ' ' . $sesi->mulai;
+        $waktu_selesai = $this->tanggal . ' ' . $sesi->selesai;
+
         $ruangan = Ruangan::find()
             ->where(['ruang' => $this->ruang])
-            ->andWhere(['between', 'waktu_selesai', $this->waktu_mulai, $this->waktu_selesai])
+            ->andWhere(['between', 'waktu_selesai', $waktu_mulai, $waktu_selesai])
             ->andWhere(['status' => 'Aktif'])
             ->count();
 
         $hari = date('Y-m-d H:i');
 
-        if ($this->waktu_mulai < $hari || $this->waktu_mulai > $this->waktu_selesai) {
+        if ($waktu_mulai < $hari) {
 
-            Yii::$app->session->setFlash('error', 'Maaf, waktu yang anda masukkan tidak sesuai.');
+            Yii::$app->session->setFlash('error', 'Maaf, tanggal yang anda masukkan tidak sesuai.');
 
         } else if ($ruangan > 0) {
 
-            Yii::$app->session->setFlash('error', 'Maaf, ruangan sudah ada yang memesan.');
+            Yii::$app->session->setFlash('error', 'Maaf, ruangan sudah digunakan.');
         
         } else {
 
@@ -50,8 +58,8 @@ class PesanRuanganForm extends Model
             $user->no_surat = $this->no_surat;
 
             $user->ruang = $this->ruang;
-            $user->waktu_mulai = $this->waktu_mulai;
-            $user->waktu_selesai = $this->waktu_selesai;      
+            $user->waktu_mulai = $waktu_mulai;
+            $user->waktu_selesai = $waktu_selesai;
         
             $user->nim_mahasiswa = Yii::$app->user->identity->nim;
             $user->status = 'Menunggu Validasi';
@@ -60,7 +68,6 @@ class PesanRuanganForm extends Model
             $user->validator = '-';
 
             return $user->save() ? $user : null;
-     	      	
         }
     }
 }

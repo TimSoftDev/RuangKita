@@ -2,13 +2,8 @@
 
 use yii\helpers\Html;
 use yii\widgets\DetailView;
-use yii\bootstrap\Modal;
-
 
 $this->title = 'Profil' ;
-$this->params['breadcrumbs'][] = ['label' => 'User', 'url' => ['index']];
-$this->params['breadcrumbs'][] = $this->title;
-
 ?>
 
 <div class="row">
@@ -19,7 +14,6 @@ $this->params['breadcrumbs'][] = $this->title;
           } else {
 
             echo Html::img('@web/uploads/default.jpg', ['class' => 'img-thumbnail', 'style' => 'width: 300px; height: 300px; margin: 0 20px 20px;', 'alt' => $model->username]);
-              
         } ?>
     </div>
     <div class="col-xs-12 col-sm-12 col-md-7">
@@ -43,13 +37,18 @@ $this->params['breadcrumbs'][] = $this->title;
                     'value' => '@' . $model->username,
                 ],
                 'email:email',
+
+                [                      
+                    'label' => 'Pemesanan' ,
+                    'value' => 'Diterima ' . $aktif . ' dari ' . $pesanan . ' pesanan',
+                ],
             ],
         ]) ?>
 
-        <p>
-          <?= Html::a('Pesan Sekarang', ['pesan'], ['class' => 'btn btn-primary']) ?>
-          <?= Html::a('Lihat Pesananku', ['pesanan'], ['class' => 'btn btn-default']) ?>
-        </p>
+        <div>
+            <?= Html::a('Pesan Sekarang', ['pesanan/pesan'], ['class' => 'btn btn-primary']) ?>
+            <?= Html::a('Lihat Pesananku', ['user/index'], ['class' => 'btn btn-default']) ?>
+        </div>
     </div>
 </div>
 

@@ -10,7 +10,6 @@ use yii\web\Controller;
 use common\models\User;
 use common\models\Ruangan;
 use common\models\RuanganSearch;
-use frontend\models\PesanRuanganForm;
 
 
 class UserController extends Controller
@@ -48,7 +47,6 @@ class UserController extends Controller
 
         $nonaktif = Ruangan::find()
             ->where(['between', 'waktu_selesai', 0, date('Y-m-d H:i')])
-            ->andWhere(['status' => 'Aktif'])
             ->andWhere(['nim_mahasiswa' => Yii::$app->user->identity->nim])
             ->count();
 
@@ -57,7 +55,7 @@ class UserController extends Controller
             $ruang = new \yii2fullcalendar\models\Event();
             $ruang->id = $_ruang->id;
 
-            if ($_ruang->waktu_selesai < date('Y-m-d H:i') || $_ruang->status == 'Sudah Selesai') {
+            if ($_ruang->waktu_selesai < date('Y-m-d H:i')) {
                 $ruang->backgroundColor= '#FF4040';
                 $ruang->borderColor= '#FF0000';
             } else if ($_ruang->status == 'Aktif') {
@@ -95,7 +93,7 @@ class UserController extends Controller
             $ruang = new \yii2fullcalendar\models\Event();
             $ruang->id = $_ruang->id;
 
-            if ($_ruang->waktu_selesai < date('Y-m-d H:i') || $_ruang->status == 'Sudah Selesai') {
+            if ($_ruang->waktu_selesai < date('Y-m-d H:i')) {
                 $ruang->backgroundColor= '#FF4040';
                 $ruang->borderColor= '#FF0000';
             } else if ($_ruang->status == 'Aktif') {
@@ -120,33 +118,30 @@ class UserController extends Controller
         ]);
     }
 
-    public function actionPesan()
-    {
-        $model = new PesanRuanganForm();
-        if ($model->load(Yii::$app->request->post())) {
-            if ($user = $model->pesan()) {
-
-                Yii::$app->session->setFlash('success', 'Pemesanan ruang berhasil.');
-
-                return $this->redirect('pesanan');
-            } else {
-                Yii::$app->session->setFlash('error', 'Maaf, ada yang salah dengan inputan anda.');
-            }
-        }
-
-        return $this->render('pesan', [
-            'model' => $model,
-        ]);
-    }
-
     public function actionProfil()
     {
         $model = User::find()
             ->where([ 'id' => Yii::$app->user->identity->id ])
             ->one();
 
+        $pesanan = Ruangan::find()
+            ->where(['nim_mahasiswa' => Yii::$app->user->identity->nim])
+            ->count();
+
+        $aktif = Ruangan::find()
+            ->where(['nim_mahasiswa' => Yii::$app->user->identity->nim])
+            ->andWhere(['status' => 'Aktif'])
+            ->count();
+
         return $this->render('profil', [
             'model' => $model,
+            'pesanan' => $pesanan,
+            'aktif' => $aktif
         ]);
+    }
+
+    public function actionBantuan()
+    {
+        return $this->render('bantuan');
     }
 }
