@@ -1,0 +1,55 @@
+Message-ID: <3894dcbc86441d867ceaaa16a82ac951@localhost>
+Date: Mon, 27 Feb 2017 17:59:38 +0700
+Subject: Password reset untuk My Application
+From: My Application robot <support@example.com>
+To: sugeng.sulistiyawan@gmail.com
+MIME-Version: 1.0
+Content-Type: multipart/alternative;
+ boundary="_=_swift_v4_1488193178_d93574b64f391bcf0c5d79686284e3d6_=_"
+
+
+--_=_swift_v4_1488193178_d93574b64f391bcf0c5d79686284e3d6_=_
+Content-Type: text/plain; charset=utf-8
+Content-Transfer-Encoding: quoted-printable
+
+
+Hello ssimg,
+
+Follow the link below to reset your password:
+
+htt=
+p://localhost/ruangkita/site/reset-password?token=3DVb0ZHpZ7bVHqy7HC1GWCzdY=
+ziB6yb8LE_1488193177
+
+--_=_swift_v4_1488193178_d93574b64f391bcf0c5d79686284e3d6_=_
+Content-Type: text/html; charset=utf-8
+Content-Transfer-Encoding: quoted-printable
+
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org=
+/TR/xhtml1/DTD/xhtml1-strict.dtd">
+<html xmlns=3D"http://www.w3.org/1999/=
+xhtml">
+<head>
+    <meta http-equiv=3D"Content-Type" content=3D"text/ht=
+ml; charset=3DUTF-8" />
+    <title></title>
+    </head>
+<body>
+    =
+    <div class=3D"password-reset">
+    <p>Hello ssimg,</p>
+
+    <p>Fo=
+llow the link below to reset your password:</p>
+
+    <p><a href=3D"http=
+://localhost/ruangkita/site/reset-password?token=3DVb0ZHpZ7bVHqy7HC1GWCzdYz=
+iB6yb8LE_1488193177">http://localhost/ruangkita/site/reset-password?token=
+=3DVb0ZHpZ7bVHqy7HC1GWCzdYziB6yb8LE_1488193177</a></p>
+</div>
+    </bod=
+y>
+</html>
+
+
+--_=_swift_v4_1488193178_d93574b64f391bcf0c5d79686284e3d6_=_--
