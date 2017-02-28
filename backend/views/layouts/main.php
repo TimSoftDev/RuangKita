@@ -128,7 +128,7 @@ $nonaktif = Ruangan::find()
                     ) ?>
                     <?= Html::a(
                         '<span class="fa fa-user" aria-hidden="true"></span>',
-                        ['data/user'],
+                        ['data/index'],
                         ['title' => 'Data Pemesan']
                     ) ?>
                     <?= Html::a(
